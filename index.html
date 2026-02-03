@@ -1,274 +1,1178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Abhishek Ujjawal — Quantitative Finance</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abhishek Ujjawal — Quantitative Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0F172A;
+      --secondary: #1E293B;
+      --accent: #3B82F6;
+      --accent-bright: #60A5FA;
+      --accent-dark: #2563EB;
+      --gold: #F59E0B;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: rgba(148, 163, 184, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.4);
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-accent: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-/* ================= ROOT ================= */
-:root {
-  --bg: #0B1120;
-  --bg-soft: #111827;
-  --card: rgba(17, 24, 39, 0.65);
-  --border: rgba(148, 163, 184, 0.12);
-  --text: #F8FAFC;
-  --muted: #9CA3AF;
-  --accent: #3B82F6;
-  --accent-soft: #60A5FA;
-  --gold: #F59E0B;
-  --radius: 18px;
-  --blur: blur(16px);
-  --gradient: linear-gradient(135deg, #3B82F6, #8B5CF6);
-}
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
 
-/* ================= RESET ================= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: radial-gradient(circle at 20% 20%, #1e293b 0%, transparent 40%),
-              radial-gradient(circle at 80% 80%, #312e81 0%, transparent 40%),
-              var(--bg);
-  color: var(--text);
-  line-height: 1.75;
-}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--primary);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* ================= GLOBAL ================= */
-.container {
-  max-width: 1300px;
-  margin: auto;
-  padding: 0 2rem;
-}
-section { padding: 6rem 0; }
-h1, h2, h3 { font-family: 'Syne', sans-serif; }
-h2 {
-  font-size: 2.7rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-}
-h2::after {
-  content: "";
-  width: 70px;
-  height: 4px;
-  background: var(--gradient);
-  display: block;
-  margin: 1rem auto 0;
-  border-radius: 4px;
-}
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+      z-index: 0;
+      animation: backgroundShift 20s ease infinite;
+    }
 
-/* ================= NAV ================= */
-nav {
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
-  background: rgba(11,17,32,0.75);
-  backdrop-filter: var(--blur);
-  border-bottom: 1px solid var(--border);
-}
-nav .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.1rem 2rem;
-}
-.logo {
-  font-weight: 800;
-  font-size: 1.5rem;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 2.2rem;
-}
-nav a {
-  text-decoration: none;
-  color: var(--text);
-  font-size: .95rem;
-  position: relative;
-}
-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--accent);
-  transition: width .3s ease;
-}
-nav a:hover::after { width: 100%; }
+    @keyframes backgroundShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
 
-/* ================= HERO ================= */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-.hero img {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  border: 4px solid var(--accent);
-  box-shadow: 0 0 60px rgba(59,130,246,.45);
-  margin-bottom: 2rem;
-}
-.hero h1 {
-  font-size: 4.2rem;
-  letter-spacing: -2px;
-}
-.subtitle {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--accent-soft);
-  margin: 1rem 0;
-}
-.tagline {
-  max-width: 700px;
-  margin: 1.5rem auto 2.5rem;
-  color: var(--muted);
-}
-.cta {
-  display: flex;
-  justify-content: center;
-  gap: 1.4rem;
-  flex-wrap: wrap;
-}
-.btn {
-  padding: 1rem 2.4rem;
-  border-radius: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.btn-primary {
-  background: var(--gradient);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(59,130,246,.4);
-}
-.btn-primary:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(59,130,246,.6);
-}
-.btn-secondary {
-  border: 2px solid var(--accent);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--accent);
-}
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 2rem;
+      transition: all 0.3s ease;
+    }
 
-/* ================= CARDS ================= */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-  gap: 2rem;
-}
-.card {
-  background: var(--card);
-  backdrop-filter: var(--blur);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 2.4rem;
-  transition: transform .35s ease, box-shadow .35s ease;
-}
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 30px 70px rgba(0,0,0,.45);
-}
+    nav.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
 
-/* ================= TAGS ================= */
-.tag {
-  background: rgba(59,130,246,.15);
-  color: var(--accent-soft);
-  padding: .5rem 1rem;
-  border-radius: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .85rem;
-}
+    nav .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-/* ================= CONTACT ================= */
-.contact-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.contact-link {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 1.1rem 2rem;
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--text);
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.contact-link:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,.35);
-}
+    nav .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
 
-/* ================= FOOTER ================= */
-footer {
-  padding: 3rem 0;
-  text-align: center;
-  color: var(--muted);
-  border-top: 1px solid var(--border);
-}
+    nav ul {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
 
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  h1 { font-size: 3rem; }
-  nav ul { display: none; }
-}
-</style>
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent-bright);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+      animation: fadeInScale 1s ease 0.2s both;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3), 0 0 0 15px rgba(59, 130, 246, 0.05);
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 25px 70px rgba(59, 130, 246, 0.4), 0 0 0 20px rgba(59, 130, 246, 0.08);
+    }
+
+    .avatar-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      background: var(--gradient-accent);
+      opacity: 0.3;
+      filter: blur(20px);
+      z-index: 1;
+      animation: pulse 3s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+      }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      color: var(--accent-bright);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 1s ease 0.8s both;
+    }
+
+    .tagline strong {
+      color: var(--accent-bright);
+      font-weight: 600;
+    }
+
+    /* CTA Buttons */
+    .cta {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 1s both;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.3px;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      color: white;
+      border: none;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--accent);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s ease infinite;
+    }
+
+    .scroll-indicator::before {
+      content: '↓';
+      font-size: 2rem;
+      color: var(--accent-bright);
+      opacity: 0.7;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Section Styling */
+    section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      text-align: center;
+      letter-spacing: -1px;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-accent);
+      border-radius: 2px;
+    }
+
+    /* Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.1);
+    }
+
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .card li {
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .card li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent-bright);
+      font-weight: bold;
+    }
+
+    /* Skills Section */
+    .skill-category {
+      margin-bottom: 2.5rem;
+    }
+
+    .skill-category h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      color: var(--accent-bright);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-bright);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Projects Section */
+    .project-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: var(--gradient-accent);
+      opacity: 0.05;
+      border-radius: 0 20px 0 100%;
+      transition: all 0.4s ease;
+    }
+
+    .project-card:hover::after {
+      width: 150px;
+      height: 150px;
+      opacity: 0.1;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 1.5rem;
+    }
+
+    .tech-badge {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--gold);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--gradient-accent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -3.5rem;
+      top: 0.5rem;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .timeline-item h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .timeline-item .period {
+      color: var(--accent-bright);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Stats Section */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* Contact Section */
+    .contact-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1.2rem 2rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-link svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-bright);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      section h2 {
+        font-size: 2.2rem;
+      }
+
+      nav ul {
+        gap: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        padding-left: 2rem;
+      }
+
+      .timeline-item {
+        padding-left: 1.5rem;
+      }
+
+      .avatar {
+        width: 140px;
+        height: 140px;
+      }
+
+      .cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-bright);
+    }
+  </style>
 </head>
-
 <body>
 
-<nav>
-  <div class="container">
-    <div class="logo">AU</div>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<section id="home" class="hero">
-  <div class="container">
-    <img src="assets/profile.jpg" alt="Abhishek Ujjawal">
-    <h1>Abhishek Ujjawal</h1>
-    <p class="subtitle">MSc Quantitative Finance — UCD Smurfit</p>
-    <p class="tagline">
-      Quantitative finance professional with <strong>8+ years</strong> in credit risk, IFRS-9 modeling,
-      portfolio analytics and Python-driven automation.  
-      <br><br><strong>Seeking Summer 2025 Internship & 2026 Graduate Roles.</strong>
-    </p>
-    <div class="cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="assets/Abhishek_Ujjawal_CV.pdf" class="btn btn-secondary" download>Download CV</a>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="logo">AU</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
-  </div>
-</section>
+  </nav>
 
-<footer>
-  <p>© 2025 Abhishek Ujjawal</p>
-  <p>Built for Quant, Risk & Research roles</p>
-</footer>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="avatar-wrapper">
+        <img src="assets/profile.jpg" alt="Abhishek Ujjawal" class="avatar">
+      </div>
+      
+      <h1>Abhishek Ujjawal</h1>
+      <p class="subtitle">MSc Quantitative Finance – UCD Smurfit</p>
+      
+      <p class="tagline">
+        Quantitative Finance professional with <strong>8+ years</strong> in Credit Risk, IFRS-9 modeling, 
+        portfolio analytics and strategic planning. Proven track record in <strong>PD/LGD modeling</strong>, 
+        time-series forecasting, stress testing and capital allocation.<br><br>
+        <strong>Seeking Summer 2025 Internship & 2026 Graduate Quant/Risk roles in Dublin.</strong>
+      </p>
+
+      <div class="cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="assets/Abhishek_Ujjawal_CV.pdf" class="btn btn-secondary" download>Download Resume</a>
+      </div>
+    </div>
+    <div class="scroll-indicator"></div>
+  </section>
+
+  <!-- Stats Section -->
+  <section>
+    <div class="container">
+      <div class="stats fade-in">
+        <div class="stat-card">
+          <span class="stat-number">8+</span>
+          <p class="stat-label">Years Experience</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">3.84</span>
+          <p class="stat-label">UCD GPA (First Class)</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">30%</span>
+          <p class="stat-label">Improved Forecast Precision</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">28%</span>
+          <p class="stat-label">YoY Revenue Growth</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <div class="grid fade-in">
+        <div class="card">
+          <h3>Background</h3>
+          <p>
+            Currently pursuing MSc Quantitative Finance at UCD Smurfit with Trimester GPA <strong>3.84 (First Class Honours)</strong>.  
+            I bring 8+ years of experience from Punjab National Bank in credit risk analytics, IFRS-9 ECL framework, 
+            capital allocation and quantitative modeling.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Expertise</h3>
+          <p>
+            My work has focused on <strong>PD/LGD/EAD modeling</strong>, yield curve analysis, portfolio risk monitoring, 
+            and Python-based automation for financial decision making. I aim to build a career in 
+            Market Risk, Credit Risk, Derivatives and Quant Research.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Current Status</h3>
+          <ul>
+            <li><strong>Location:</strong> Dublin, Ireland</li>
+            <li><strong>Availability:</strong> Summer 2025 Internship → Graduate roles 2026 (Stamp 1G)</li>
+            <li><strong>Interests:</strong> Risk Modeling, Econometrics, Portfolio Analytics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <h2>Professional Experience</h2>
+      <div class="timeline fade-in">
+        <div class="timeline-item">
+          <h3>Manager – Risk & Strategic Planning</h3>
+          <span class="period">Punjab National Bank | May 2023 – June 2025</span>
+          <div class="card">
+            <ul>
+              <li>Designed <strong>IFRS-9 PD/LGD models</strong> – improved forecast precision by 30%</li>
+              <li>Built capital allocation framework → <strong>28% YoY revenue growth</strong></li>
+              <li>Developed Python dashboards integrating financial & macroeconomic data</li>
+              <li>Conducted yield curve & duration analysis in collaboration with Treasury</li>
+              <li>Performed stress testing and scenario analysis for portfolio risk management</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <h3>Credit Risk Manager</h3>
+          <span class="period">Punjab National Bank | June 2019 – April 2023</span>
+          <div class="card">
+            <ul>
+              <li>Developed logistic regression credit scorecards – <strong>reduced default by 30%</strong></li>
+              <li>Automated 100+ client financial analysis via Python/VBA workflows</li>
+              <li>Led portfolio monitoring and stress scenario testing initiatives</li>
+              <li>Implemented risk-adjusted pricing models for loan products</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <h3>Senior Data Analyst</h3>
+          <span class="period">BhashaHome Services | 2015 – 2019</span>
+          <div class="card">
+            <ul>
+              <li>Built ARIMA & regression forecasting models – <strong>24% accuracy improvement</strong></li>
+              <li>Created Power BI dashboards for business intelligence and optimization</li>
+              <li>Analyzed customer behavior patterns and market trends</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <h2>Featured Projects</h2>
+      <div class="grid fade-in">
+        <div class="project-card">
+          <h3>Equity Price Forecasting – Machine Learning</h3>
+          <p>
+            Developed comprehensive time-series forecasting framework for equity prices using advanced regression 
+            and machine learning models. Project focused on portfolio risk assessment and generating actionable 
+            trading insights through statistical analysis and predictive modeling.
+          </p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">scikit-learn</span>
+            <span class="tech-badge">pandas</span>
+            <span class="tech-badge">Time Series</span>
+            <span class="tech-badge">Statistics</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>IFRS-9 PD Model Framework</h3>
+          <p>
+            Constructed end-to-end conceptual framework for IFRS-9 Expected Credit Loss calculation 
+            including PD/LGD/EAD modeling with comprehensive scenario analysis and stress testing capabilities 
+            for retail loan portfolios. Integrated macroeconomic variables for forward-looking adjustments.
+          </p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Excel</span>
+            <span class="tech-badge">Risk Analytics</span>
+            <span class="tech-badge">IFRS-9</span>
+            <span class="tech-badge">ECL Modeling</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>Portfolio Risk Dashboard</h3>
+          <p>
+            Built interactive Python dashboard integrating multiple data sources for real-time portfolio 
+            risk monitoring. Incorporated VaR calculations, sensitivity analysis, and stress testing 
+            scenarios with macroeconomic factor integration for comprehensive risk assessment.
+          </p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Dash/Plotly</span>
+            <span class="tech-badge">VaR</span>
+            <span class="tech-badge">Risk Metrics</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>Credit Scorecard Development</h3>
+          <p>
+            Designed and validated logistic regression-based credit scorecards for retail lending. 
+            Implemented WOE/IV analysis, variable selection, and model calibration. Achieved 30% 
+            reduction in default rates while maintaining approval rates.
+          </p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Logistic Regression</span>
+            <span class="tech-badge">WOE/IV</span>
+            <span class="tech-badge">Model Validation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <h2>Technical Skills</h2>
+      <div class="fade-in">
+        <div class="skill-category">
+          <h3>Quantitative Finance</h3>
+          <div class="skill-tags">
+            <span class="tag">Value at Risk (VaR)</span>
+            <span class="tag">Monte Carlo Simulation</span>
+            <span class="tag">Derivatives Pricing</span>
+            <span class="tag">CAPM / APT</span>
+            <span class="tag">Time-Series Analysis</span>
+            <span class="tag">Stress Testing</span>
+            <span class="tag">Portfolio Theory</span>
+            <span class="tag">Risk Metrics</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Credit Risk & Modeling</h3>
+          <div class="skill-tags">
+            <span class="tag">IFRS-9 ECL</span>
+            <span class="tag">PD / LGD / EAD</span>
+            <span class="tag">Credit Scorecards</span>
+            <span class="tag">Logistic Regression</span>
+            <span class="tag">Model Validation</span>
+            <span class="tag">WOE / IV Analysis</span>
+            <span class="tag">Portfolio Management</span>
+            <span class="tag">Basel II/III</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Programming & Tools</h3>
+          <div class="skill-tags">
+            <span class="tag">Python</span>
+            <span class="tag">pandas</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">scikit-learn</span>
+            <span class="tag">SQL</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">VBA</span>
+            <span class="tag">C++</span>
+            <span class="tag">Excel Advanced</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Data Visualization & BI</h3>
+          <div class="skill-tags">
+            <span class="tag">Power BI</span>
+            <span class="tag">Tableau</span>
+            <span class="tag">Plotly/Dash</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">Dashboard Design</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Statistical & Econometric Methods</h3>
+          <div class="skill-tags">
+            <span class="tag">ARIMA</span>
+            <span class="tag">GARCH</span>
+            <span class="tag">Regression Analysis</span>
+            <span class="tag">Hypothesis Testing</span>
+            <span class="tag">Forecasting</span>
+            <span class="tag">Backtesting</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education & Certifications -->
+  <section id="education">
+    <div class="container">
+      <h2>Education & Certifications</h2>
+      <div class="grid fade-in">
+        <div class="card">
+          <h3>MSc Quantitative Finance</h3>
+          <p><strong>University College Dublin – Smurfit School</strong></p>
+          <p>GPA: <strong>3.84 – First Class Honours</strong></p>
+          <p>Focus: Derivatives, Risk Management, Econometrics, Portfolio Theory</p>
+        </div>
+
+        <div class="card">
+          <h3>MBA – Finance</h3>
+          <p><strong>First Class (69.28%)</strong></p>
+          <p>Specialization in Financial Management and Strategic Planning</p>
+        </div>
+
+        <div class="card">
+          <h3>Professional Certifications</h3>
+          <ul>
+            <li>Google Data Analytics Professional Certificate</li>
+            <li>Advanced Excel & VBA for Finance</li>
+            <li>Python for Financial Analysis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2>Get In Touch</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem;">
+        Open to Quant Analyst, Risk Analyst, and Credit Risk roles in Dublin & across Europe.
+        Let's connect and discuss opportunities!
+      </p>
+      
+      <div class="contact-links fade-in">
+        <a href="mailto:theabhishekujjawal@gmail.com" class="contact-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          Email Me
+        </a>
+        
+        <a href="https://linkedin.com/in/theabhishekujjawal" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+          </svg>
+          LinkedIn
+        </a>
+        
+        <a href="https://github.com/YOUR_GITHUB" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Abhishek Ujjawal. All rights reserved.</p>
+      <p>Designed with passion for excellence in quantitative finance.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Fade in animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
