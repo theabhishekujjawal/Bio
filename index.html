@@ -1,1455 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abhishek Ujjawal — Quantitative Finance</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Geist+Mono:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;500;700;900&display=swap');
-
-    :root {
-      --bg-primary: #0A0A0F;
-      --bg-secondary: #12121A;
-      --bg-tertiary: #1A1A24;
-      --accent-blue: #3B7FFF;
-      --accent-cyan: #00F5FF;
-      --accent-purple: #8B5CF6;
-      --accent-pink: #EC4899;
-      --accent-yellow: #FBBF24;
-      --text-primary: #FFFFFF;
-      --text-secondary: #A0A0B2;
-      --text-muted: #6B6B80;
-      --border: rgba(255, 255, 255, 0.06);
-      --glow-blue: rgba(59, 127, 255, 0.3);
-      --glow-purple: rgba(139, 92, 246, 0.3);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 100px;
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Animated gradient mesh background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 15% 20%, rgba(59, 127, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 50% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 30% 80%, rgba(0, 245, 255, 0.08) 0%, transparent 40%);
-      z-index: 0;
-      animation: meshMove 20s ease-in-out infinite;
-    }
-
-    @keyframes meshMove {
-      0%, 100% { 
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% { 
-        opacity: 0.8;
-        transform: scale(1.05);
-      }
-    }
-
-    /* Floating orbs */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.6;
-      z-index: 0;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    .orb-1 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
-      top: -200px;
-      left: -200px;
-      animation-delay: 0s;
-    }
-
-    .orb-2 {
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
-      bottom: -150px;
-      right: -150px;
-      animation-delay: -7s;
-    }
-
-    .orb-3 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
-      animation-delay: -14s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translate(0, 0) scale(1);
-      }
-      33% {
-        transform: translate(100px, -50px) scale(1.1);
-      }
-      66% {
-        transform: translate(-50px, 100px) scale(0.9);
-      }
-    }
-
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      background: rgba(18, 18, 26, 0.6);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 0.8rem 1.5rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    nav.scrolled {
-      background: rgba(18, 18, 26, 0.8);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    nav ul {
-      display: flex;
-      gap: 0.5rem;
-      list-style: none;
-      align-items: center;
-    }
-
-    nav a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 0.6rem 1.2rem;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    nav a:hover {
-      color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    nav a.active {
-      color: var(--text-primary);
-      background: rgba(59, 127, 255, 0.15);
-    }
-
-    /* Container */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Hero Section - Bento Grid Layout */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 0 4rem;
-      position: relative;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 1.5rem;
-      width: 100%;
-    }
-
-    .hero-main {
-      grid-column: 1 / 8;
-      grid-row: 1 / 3;
-      background: linear-gradient(135deg, rgba(59, 127, 255, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      padding: 4rem;
-      position: relative;
-      overflow: hidden;
-      animation: fadeInUp 1s ease;
-    }
-
-    .hero-main::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(59, 127, 255, 0.2) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(60px);
-    }
-
-    .name-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 0.5rem 1.2rem;
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 2;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background: #10B981;
-      border-radius: 50%;
-      animation: pulse-dot 2s ease infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(1.2);
-      }
-    }
-
-    h1 {
-      font-family: 'Satoshi', sans-serif;
-      font-size: 5rem;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #FFFFFF 0%, #A0A0B2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      z-index: 2;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 50%, var(--accent-purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-family: 'Geist Mono', monospace;
-      font-size: 1.1rem;
-      color: var(--accent-blue);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-description {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      margin-bottom: 2.5rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .btn {
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      color: white;
-      box-shadow: 0 10px 30px rgba(59, 127, 255, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 40px rgba(59, 127, 255, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Profile Card */
-    .profile-card {
-      grid-column: 8 / 13;
-      grid-row: 1 / 2;
-      background: rgba(26, 26, 36, 0.6);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      animation: fadeInRight 1s ease 0.2s both;
-    }
-
-    .avatar-container {
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
-
-    .avatar {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(59, 127, 255, 0.3);
-      box-shadow: 0 20px 60px rgba(59, 127, 255, 0.2);
-      position: relative;
-      z-index: 2;
-    }
-
-    .avatar-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(40px);
-      z-index: 1;
-      animation: glowPulse 3s ease infinite;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.7; }
-    }
-
-    .profile-info h3 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
-
-    .profile-info p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .social-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .social-link:hover {
-      background: rgba(59, 127, 255, 0.15);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-      transform: translateY(-2px);
-    }
-
-    /* Stats Cards */
-    .stats-row {
-      grid-column: 8 / 13;
-      grid-row: 2 / 3;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      animation: fadeInRight 1s ease 0.4s both;
-    }
-
-    .stat-item {
-      background: rgba(26, 26, 36, 0.6);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .stat-item:hover::before {
-      transform: scaleX(1);
-    }
-
-    .stat-item:hover {
-      background: rgba(26, 26, 36, 0.8);
-      border-color: rgba(59, 127, 255, 0.3);
-      transform: translateY(-5px);
-    }
-
-    .stat-number {
-      font-size: 2.8rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: block;
-      margin-bottom: 0.5rem;
-      font-family: 'Satoshi', sans-serif;
-    }
-
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* Section Headers */
-    .section {
-      padding: 6rem 0;
-      position: relative;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .section-tag {
-      display: inline-block;
-      padding: 0.5rem 1.2rem;
-      background: rgba(59, 127, 255, 0.1);
-      border: 1px solid rgba(59, 127, 255, 0.2);
-      border-radius: 100px;
-      color: var(--accent-blue);
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-size: 3.5rem;
-      font-weight: 900;
-      margin-bottom: 1rem;
-      font-family: 'Satoshi', sans-serif;
-    }
-
-    .section-subtitle {
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Experience Timeline */
-    .timeline {
-      position: relative;
-      padding-left: 0;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .timeline-item {
-      background: rgba(26, 26, 36, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-      position: relative;
-      transition: all 0.4s ease;
-    }
-
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -20px;
-      top: 2.5rem;
-      width: 12px;
-      height: 12px;
-      background: var(--accent-blue);
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(59, 127, 255, 0.2);
-    }
-
-    .timeline-item:hover {
-      background: rgba(26, 26, 36, 0.6);
-      border-color: rgba(59, 127, 255, 0.3);
-      transform: translateX(10px);
-    }
-
-    .timeline-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .timeline-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-    }
-
-    .timeline-company {
-      color: var(--accent-blue);
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    .timeline-period {
-      font-family: 'Geist Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 0.4rem 1rem;
-      border-radius: 100px;
-    }
-
-    .timeline-item ul {
-      list-style: none;
-    }
-
-    .timeline-item li {
-      color: var(--text-secondary);
-      margin-bottom: 0.8rem;
-      padding-left: 1.8rem;
-      position: relative;
-      line-height: 1.7;
-    }
-
-    .timeline-item li::before {
-      content: '▹';
-      position: absolute;
-      left: 0;
-      color: var(--accent-blue);
-      font-size: 1.2rem;
-    }
-
-    /* Bento Grid for Projects */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .bento-item {
-      background: rgba(26, 26, 36, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2.5rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .bento-item::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(59, 127, 255, 0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .bento-item:hover::after {
-      opacity: 1;
-    }
-
-    .bento-item:hover {
-      background: rgba(26, 26, 36, 0.6);
-      border-color: rgba(59, 127, 255, 0.3);
-      transform: translateY(-8px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    }
-
-    .bento-large {
-      grid-column: span 6;
-    }
-
-    .bento-medium {
-      grid-column: span 4;
-    }
-
-    .bento-small {
-      grid-column: span 3;
-    }
-
-    .project-icon {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .project-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .project-desc {
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-      position: relative;
-      z-index: 2;
-    }
-
-    .tech-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      position: relative;
-      z-index: 2;
-    }
-
-    .tech-tag {
-      padding: 0.4rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-family: 'Geist Mono', monospace;
-      transition: all 0.3s ease;
-    }
-
-    .tech-tag:hover {
-      background: rgba(59, 127, 255, 0.15);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-    }
-
-    /* Skills Grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .skill-card {
-      background: rgba(26, 26, 36, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .skill-card:hover {
-      background: rgba(26, 26, 36, 0.6);
-      border-color: rgba(59, 127, 255, 0.3);
-      transform: translateY(-5px);
-    }
-
-    .skill-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .skill-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-    }
-
-    .skill-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .skill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .skill-badge {
-      padding: 0.5rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      transition: all 0.3s ease;
-    }
-
-    .skill-badge:hover {
-      background: rgba(59, 127, 255, 0.1);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
-    }
-
-    /* Contact Section */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .contact-card {
-      background: rgba(26, 26, 36, 0.4);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 2rem;
-      text-align: center;
-      text-decoration: none;
-      color: var(--text-primary);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-
-    .contact-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .contact-card:hover {
-      background: rgba(26, 26, 36, 0.6);
-      border-color: rgba(59, 127, 255, 0.3);
-      transform: translateY(-8px);
-    }
-
-    .contact-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      font-size: 1.8rem;
-    }
-
-    .contact-label {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-value {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* Footer */
-    footer {
-      background: rgba(18, 18, 26, 0.8);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border);
-      padding: 3rem 2rem;
-      text-align: center;
-      margin-top: 6rem;
-    }
-
-    footer p {
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInRight {
-      from {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .fade-in-scroll {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
-    }
-
-    .fade-in-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-main,
-      .profile-card,
-      .stats-row {
-        grid-column: 1 / -1;
-        grid-row: auto;
-      }
-
-      .bento-large,
-      .bento-medium,
-      .bento-small {
-        grid-column: span 12;
-      }
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 3rem;
-      }
-
-      .section-title {
-        font-size: 2.5rem;
-      }
-
-      nav {
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
-        transform: none;
-      }
-
-      nav ul {
-        gap: 0.3rem;
-      }
-
-      nav a {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.85rem;
-      }
-
-      .hero-main {
-        padding: 2.5rem;
-      }
-
-      .stats-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-primary);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Abhishek Ujjawal | Finance & AI Risk Specialist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Floating Orbs -->
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
 
-  <!-- Navigation -->
-  <nav id="navbar">
+<nav class="navbar">
+    <div class="logo">Abhishek Ujjawal</div>
     <ul>
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
     </ul>
-  </nav>
+</nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <!-- Main Hero Content -->
-        <div class="hero-main">
-          <div class="name-badge">
-            <span class="status-dot"></span>
-            <span>Available for Internship & Graduate Roles</span>
-          </div>
-          
-          <h1>
-            Hey, I'm <span class="gradient-text">Abhishek</span><br>
-            Quantitative Finance Specialist
-          </h1>
-          
-          <p class="hero-subtitle">MSc Quantitative Finance – UCD Smurfit | 8+ Years in Risk Analytics</p>
-          
-          <p class="hero-description">
-            Transforming complex financial data into actionable insights. Specialized in <strong>IFRS-9 modeling</strong>, 
-            <strong>credit risk analytics</strong>, and <strong>portfolio optimization</strong>. Proven track record of 
-            improving forecast precision by 30% and driving 28% YoY revenue growth through strategic risk frameworks.
-          </p>
-
-          <div class="hero-cta">
-            <a href="#projects" class="btn btn-primary">
-              <span>View My Work</span>
-              <span>→</span>
-            </a>
-            <a href="assets/Abhishek_Ujjawal_CV.pdf" class="btn btn-secondary" download>
-              <span>Download CV</span>
-              <span>↓</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Profile Card -->
-        <div class="profile-card">
-          <div class="avatar-container">
-            <div class="avatar-glow"></div>
-            <img src="assets/profile.jpg" alt="Abhishek Ujjawal" class="avatar">
-          </div>
-          
-          <div class="profile-info">
-            <h3>Abhishek Ujjawal</h3>
-            <p>📍 Dublin, Ireland</p>
-            <p>🎓 MSc Quantitative Finance</p>
-            <p>💼 Risk Analytics Expert</p>
-            
-            <div class="social-links">
-              <a href="mailto:theabhishekujjawal@gmail.com" class="social-link" title="Email">
-                ✉️
-              </a>
-              <a href="https://linkedin.com/in/theabhishekujjawal" target="_blank" class="social-link" title="LinkedIn">
-                💼
-              </a>
-              <a href="https://github.com/YOUR_GITHUB" target="_blank" class="social-link" title="GitHub">
-                💻
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats Row -->
-        <div class="stats-row">
-          <div class="stat-item">
-            <span class="stat-number">8+</span>
-            <span class="stat-label">Years Experience</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">3.84</span>
-            <span class="stat-label">GPA First Class</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">30%</span>
-            <span class="stat-label">Forecast Precision</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">28%</span>
-            <span class="stat-label">Revenue Growth</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience Section -->
-  <section id="experience" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Career Journey</span>
-        <h2 class="section-title">Professional Experience</h2>
-        <p class="section-subtitle">8+ years driving financial excellence through data-driven risk management and strategic planning</p>
-      </div>
-
-      <div class="timeline fade-in-scroll">
-        <div class="timeline-item">
-          <div class="timeline-header">
-            <div>
-              <h3 class="timeline-title">Manager – Risk & Strategic Planning</h3>
-              <p class="timeline-company">Punjab National Bank</p>
-            </div>
-            <span class="timeline-period">May 2023 – June 2025</span>
-          </div>
-          <ul>
-            <li>Designed <strong>IFRS-9 PD/LGD models</strong> improving forecast precision by <strong>30%</strong> through advanced statistical techniques</li>
-            <li>Built capital allocation framework driving <strong>28% YoY revenue growth</strong> via optimized resource deployment</li>
-            <li>Developed Python dashboards integrating financial & macroeconomic data for real-time risk monitoring</li>
-            <li>Conducted yield curve & duration analysis in collaboration with Treasury for interest rate risk management</li>
-            <li>Performed comprehensive stress testing and scenario analysis for portfolio risk assessment</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-header">
-            <div>
-              <h3 class="timeline-title">Credit Risk Manager</h3>
-              <p class="timeline-company">Punjab National Bank</p>
-            </div>
-            <span class="timeline-period">June 2019 – April 2023</span>
-          </div>
-          <ul>
-            <li>Developed logistic regression credit scorecards reducing default rates by <strong>30%</strong></li>
-            <li>Automated 100+ client financial analysis workflows using Python/VBA, saving 200+ hours monthly</li>
-            <li>Led portfolio monitoring initiatives with stress scenario testing frameworks</li>
-            <li>Implemented risk-adjusted pricing models for diversified loan product portfolio</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-header">
-            <div>
-              <h3 class="timeline-title">Senior Data Analyst</h3>
-              <p class="timeline-company">BhashaHome Services</p>
-            </div>
-            <span class="timeline-period">2015 – 2019</span>
-          </div>
-          <ul>
-            <li>Built ARIMA & regression forecasting models achieving <strong>24% accuracy improvement</strong></li>
-            <li>Created Power BI dashboards for business intelligence and operational optimization</li>
-            <li>Analyzed customer behavior patterns and market trends to drive strategic decisions</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Portfolio</span>
-        <h2 class="section-title">Featured Projects</h2>
-        <p class="section-subtitle">Innovative solutions at the intersection of finance, data science, and risk management</p>
-      </div>
-
-      <div class="bento-grid fade-in-scroll">
-        <div class="bento-item bento-large">
-          <div class="project-icon">📊</div>
-          <h3 class="project-title">Equity Price Forecasting – Machine Learning</h3>
-          <p class="project-desc">
-            Developed comprehensive time-series forecasting framework for equity prices using advanced regression 
-            and machine learning models. Implemented ARIMA, GARCH, and ensemble methods for portfolio risk assessment 
-            and generating actionable trading insights through statistical analysis and predictive modeling.
-          </p>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">scikit-learn</span>
-            <span class="tech-tag">pandas</span>
-            <span class="tech-tag">Time Series</span>
-            <span class="tech-tag">Statistics</span>
-          </div>
-        </div>
-
-        <div class="bento-item bento-large">
-          <div class="project-icon">💰</div>
-          <h3 class="project-title">IFRS-9 PD Model Framework</h3>
-          <p class="project-desc">
-            Constructed end-to-end conceptual framework for IFRS-9 Expected Credit Loss calculation 
-            including PD/LGD/EAD modeling with comprehensive scenario analysis and stress testing capabilities 
-            for retail loan portfolios. Integrated macroeconomic variables for forward-looking adjustments.
-          </p>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Excel</span>
-            <span class="tech-tag">Risk Analytics</span>
-            <span class="tech-tag">IFRS-9</span>
-            <span class="tech-tag">ECL Modeling</span>
-          </div>
-        </div>
-
-        <div class="bento-item bento-large">
-          <div class="project-icon">📈</div>
-          <h3 class="project-title">Portfolio Risk Dashboard</h3>
-          <p class="project-desc">
-            Built interactive Python dashboard integrating multiple data sources for real-time portfolio 
-            risk monitoring. Incorporated VaR calculations, sensitivity analysis, and stress testing 
-            scenarios with macroeconomic factor integration for comprehensive risk assessment.
-          </p>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Dash/Plotly</span>
-            <span class="tech-tag">VaR</span>
-            <span class="tech-tag">Risk Metrics</span>
-          </div>
-        </div>
-
-        <div class="bento-item bento-large">
-          <div class="project-icon">🎯</div>
-          <h3 class="project-title">Credit Scorecard Development</h3>
-          <p class="project-desc">
-            Designed and validated logistic regression-based credit scorecards for retail lending. 
-            Implemented WOE/IV analysis, variable selection, and model calibration. Achieved 30% 
-            reduction in default rates while maintaining approval rates through robust statistical methods.
-          </p>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Logistic Regression</span>
-            <span class="tech-tag">WOE/IV</span>
-            <span class="tech-tag">Model Validation</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills Section -->
-  <section id="skills" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Expertise</span>
-        <h2 class="section-title">Technical Skills</h2>
-        <p class="section-subtitle">Comprehensive toolkit for quantitative finance and risk management</p>
-      </div>
-
-      <div class="skills-grid fade-in-scroll">
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">📊</div>
-            <h3 class="skill-title">Quantitative Finance</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">Value at Risk (VaR)</span>
-            <span class="skill-badge">Monte Carlo</span>
-            <span class="skill-badge">Derivatives Pricing</span>
-            <span class="skill-badge">CAPM / APT</span>
-            <span class="skill-badge">Time-Series</span>
-            <span class="skill-badge">Stress Testing</span>
-            <span class="skill-badge">Portfolio Theory</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">💳</div>
-            <h3 class="skill-title">Credit Risk & Modeling</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">IFRS-9 ECL</span>
-            <span class="skill-badge">PD / LGD / EAD</span>
-            <span class="skill-badge">Credit Scorecards</span>
-            <span class="skill-badge">Logistic Regression</span>
-            <span class="skill-badge">Model Validation</span>
-            <span class="skill-badge">WOE / IV Analysis</span>
-            <span class="skill-badge">Basel II/III</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">💻</div>
-            <h3 class="skill-title">Programming & Tools</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">Python</span>
-            <span class="skill-badge">pandas</span>
-            <span class="skill-badge">NumPy</span>
-            <span class="skill-badge">scikit-learn</span>
-            <span class="skill-badge">SQL</span>
-            <span class="skill-badge">MATLAB</span>
-            <span class="skill-badge">VBA</span>
-            <span class="skill-badge">C++</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">📉</div>
-            <h3 class="skill-title">Data Visualization & BI</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">Power BI</span>
-            <span class="skill-badge">Tableau</span>
-            <span class="skill-badge">Plotly/Dash</span>
-            <span class="skill-badge">Matplotlib</span>
-            <span class="skill-badge">Dashboard Design</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">📐</div>
-            <h3 class="skill-title">Statistical Methods</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">ARIMA</span>
-            <span class="skill-badge">GARCH</span>
-            <span class="skill-badge">Regression Analysis</span>
-            <span class="skill-badge">Hypothesis Testing</span>
-            <span class="skill-badge">Forecasting</span>
-            <span class="skill-badge">Backtesting</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon">🎓</div>
-            <h3 class="skill-title">Education</h3>
-          </div>
-          <div class="skill-list">
-            <span class="skill-badge">MSc Quant Finance (3.84 GPA)</span>
-            <span class="skill-badge">MBA Finance</span>
-            <span class="skill-badge">Google Analytics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Let's Connect</span>
-        <h2 class="section-title">Get In Touch</h2>
-        <p class="section-subtitle">
-          Open to Quant Analyst, Risk Analyst, and Credit Risk roles in Dublin & across Europe.<br>
-          Let's discuss how I can add value to your team!
+<section class="hero">
+    <div class="hero-text">
+        <h1>Abhishek Ujjawal</h1>
+        <h2>Finance & Artificial Intelligence Risk Specialist</h2>
+        <p>
+            Quantitative finance professional with 10+ years in credit risk, financial modelling, and strategic planning.
+            Specialising in AI-driven risk analytics, portfolio modelling, and predictive finance.
+            MSc Quantitative Finance | Dublin, Ireland.
         </p>
-      </div>
-
-      <div class="contact-grid fade-in-scroll">
-        <a href="mailto:theabhishekujjawal@gmail.com" class="contact-card">
-          <div class="contact-icon">✉️</div>
-          <div class="contact-label">Email</div>
-          <div class="contact-value">theabhishekujjawal@gmail.com</div>
-        </a>
-
-        <a href="https://linkedin.com/in/theabhishekujjawal" target="_blank" class="contact-card">
-          <div class="contact-icon">💼</div>
-          <div class="contact-label">LinkedIn</div>
-          <div class="contact-value">Connect with me</div>
-        </a>
-
-        <a href="https://github.com/YOUR_GITHUB" target="_blank" class="contact-card">
-          <div class="contact-icon">💻</div>
-          <div class="contact-label">GitHub</div>
-          <div class="contact-value">View my code</div>
-        </a>
-
-        <a href="assets/Abhishek_Ujjawal_CV.pdf" class="contact-card" download>
-          <div class="contact-icon">📄</div>
-          <div class="contact-label">Resume</div>
-          <div class="contact-value">Download CV</div>
-        </a>
-      </div>
+        <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="Abhishek_Ujjawal_CV.pdf" class="btn-outline">Download CV</a>
+        </div>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Abhishek Ujjawal. All rights reserved.</p>
-      <p>Crafted with passion for quantitative excellence.</p>
+    <div class="hero-image">
+        <img src="abhi photo.jpg" alt="Abhishek Ujjawal">
     </div>
-  </footer>
+</section>
 
-  <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
+<section id="about" class="section">
+    <h2>About</h2>
+    <p>
+        Finance risk professional with over 10 years of experience in credit risk analytics, financial modelling,
+        and strategic planning across banking and data-driven industries. Currently pursuing an MSc in Quantitative
+        Finance with a focus on machine learning, portfolio modelling, and predictive analytics.
+        My work bridges traditional finance with modern artificial intelligence techniques to deliver robust,
+        risk-adjusted decision frameworks.
+    </p>
+</section>
 
-    // Active nav link
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a');
+<section id="expertise" class="section dark">
+    <h2>Core Expertise</h2>
+    <div class="grid">
+        <div>
+            <h3>Finance & Risk</h3>
+            <ul>
+                <li>IFRS 9 Expected Credit Loss</li>
+                <li>Portfolio Risk Modelling</li>
+                <li>VaR & Stress Testing</li>
+                <li>Derivatives Pricing</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Artificial Intelligence</h3>
+            <ul>
+                <li>Machine Learning</li>
+                <li>Time-Series Forecasting</li>
+                <li>Statistical Modelling</li>
+                <li>Predictive Analytics</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Programming & Tools</h3>
+            <ul>
+                <li>Python</li>
+                <li>SQL</li>
+                <li>MATLAB</li>
+                <li>Power BI</li>
+                <li>Tableau</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Strategy & Leadership</h3>
+            <ul>
+                <li>Risk Governance</li>
+                <li>Capital Allocation</li>
+                <li>Regulatory Compliance</li>
+                <li>Stakeholder Management</li>
+            </ul>
+        </div>
+    </div>
+</section>
 
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-          current = section.getAttribute('id');
-        }
-      });
+<section id="experience" class="section">
+    <h2>Professional Experience</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <h3>Manager – Risk & Strategic Planning</h3>
+            <p>Punjab National Bank</p>
+            <ul>
+                <li>Delivered 28% YoY revenue growth via risk-aligned capital allocation.</li>
+                <li>Implemented ECL frameworks improving forecast accuracy by 30%.</li>
+                <li>Boosted net profit by 18.2% YoY through strategic portfolio optimisation.</li>
+            </ul>
+        </div>
+        <div class="timeline-item">
+            <h3>Credit Risk Manager</h3>
+            <p>Punjab National Bank</p>
+        </div>
+        <div class="timeline-item">
+            <h3>Senior Data Analyst</h3>
+            <p>BhashaHome Services India LLP</p>
+        </div>
+    </div>
+</section>
 
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-          link.classList.add('active');
-        }
-      });
-    });
+<section id="projects" class="section dark">
+    <h2>Projects</h2>
 
-    // Scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
+    <!-- PROJECT PLACEHOLDER START -->
+    <div class="project-card">
+        <h3>Credit Risk Scorecard Model</h3>
+        <p><!-- Replace this description later --></p>
+        <span class="tech">Python | Logistic Regression | Risk Analytics</span>
+    </div>
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
+    <div class="project-card">
+        <h3>IFRS 9 ECL Simulation Engine</h3>
+        <p><!-- Replace this description later --></p>
+        <span class="tech">Python | Monte Carlo | Financial Modelling</span>
+    </div>
 
-    document.querySelectorAll('.fade-in-scroll').forEach(el => {
-      observer.observe(el);
-    });
+    <div class="project-card">
+        <h3>Portfolio Optimisation Engine</h3>
+        <p><!-- Replace this description later --></p>
+        <span class="tech">Markowitz | CAPM | Optimisation</span>
+    </div>
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  </script>
+    <div class="project-card">
+        <h3>Machine Learning Stock Forecasting</h3>
+        <p><!-- Replace this description later --></p>
+        <span class="tech">Time-Series | Regression | ML</span>
+    </div>
+    <!-- PROJECT PLACEHOLDER END -->
+
+</section>
+
+<section id="education" class="section">
+    <h2>Education</h2>
+    <ul class="education-list">
+        <li><strong>MSc Quantitative Finance</strong> – UCD Smurfit, Dublin (Expected 2026)</li>
+        <li><strong>MBA</strong> – 69.28% (2.1 Honours)</li>
+        <li><strong>B.Tech, IIT Patna</strong> – 71.50%</li>
+        <li><strong>Class 12</strong> – St. Michael’s High School, 92%</li>
+        <li><strong>Class 10</strong> – JNV Vaishali, 86.6%</li>
+    </ul>
+</section>
+
+<section id="contact" class="section dark">
+    <h2>Contact</h2>
+    <p>Dublin, Ireland</p>
+    <p>Email: theabhishekujjawal@gmail.com</p>
+    <p>LinkedIn: linkedin.com/in/theabhishekujjawal</p>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
