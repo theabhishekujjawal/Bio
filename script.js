@@ -1,10 +1,17 @@
-window.addEventListener("scroll", function() {
-    document.querySelectorAll(".section").forEach(section => {
-        const position = section.getBoundingClientRect().top;
-        if (position < window.innerHeight - 100) {
-            section.style.opacity = 1;
-            section.style.transform = "translateY(0)";
+const elements = document.querySelectorAll(".section, .project-card");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = "translateY(0)";
         }
     });
 });
 
+elements.forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = "translateY(40px)";
+    el.style.transition = "all 0.8s ease";
+    observer.observe(el);
+});
