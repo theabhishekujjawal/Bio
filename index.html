@@ -1,523 +1,1081 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Abhishek Ujjawal — Quantitative Finance & AI. MSc Candidate, UCD Smurfit. 10+ Years Risk & Capital Markets. Dublin, Ireland."/>
-  <title>Abhishek Ujjawal — Quantitative Finance & AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="styles.css"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abhishek Ujjawal — Quantitative Finance & AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;
+  --bg2:#0b1120;
+  --bg3:#0f1929;
+  --panel:#111c30;
+  --gold:#c9a44c;
+  --gold2:#e6c97a;
+  --goldf:rgba(201,164,76,.12);
+  --goldb:rgba(201,164,76,.22);
+  --blue:#2b5ae8;
+  --teal:#1fd4b4;
+  --white:#fff;
+  --t1:#e8ecf5;
+  --t2:#8a9ab8;
+  --t3:#4a5878;
+  --border:rgba(255,255,255,.06);
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);overflow-x:hidden}
+
+/* ─── SCROLL PROGRESS ─── */
+#bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));z-index:999;width:0;transition:width .06s linear}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:68px;padding:0 7%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(6,10,20,.85);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:border-color .3s;
+}
+nav.lit{border-color:var(--goldb)}
+.n-logo{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+}
+.n-mark{
+  width:34px;height:34px;background:var(--gold);color:#000;
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.04em;
+}
+.n-name{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--t1);letter-spacing:-.01em}
+.n-links{display:flex;align-items:center;gap:28px}
+.n-links a{
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t2);text-decoration:none;transition:color .2s;
+}
+.n-links a:hover{color:var(--t1)}
+.n-cta{
+  padding:8px 20px;border:1px solid var(--gold);color:var(--gold) !important;
+  border-radius:3px;transition:background .2s,color .2s !important;
+}
+.n-cta:hover{background:var(--gold);color:#000 !important}
+.hbg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hbg span{width:22px;height:1.5px;background:var(--t1);display:block;transition:all .3s}
+.hbg.on span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.on span:nth-child(2){opacity:0}
+.hbg.on span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+#mob{
+  display:none;position:fixed;top:68px;left:0;right:0;z-index:190;
+  background:rgba(6,10,20,.98);border-bottom:1px solid var(--goldb);
+  padding:16px 7%;flex-direction:column;
+}
+#mob.on{display:flex}
+#mob a{padding:14px 0;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+#mob a:last-child{border-bottom:none}
+#mob a:hover{color:var(--gold)}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  background:var(--bg);
+  display:flex;align-items:center;
+  padding:100px 7% 80px;
+}
+#hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 40%,rgba(201,164,76,.05) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 70% at 15% 60%,rgba(43,90,232,.06) 0%,transparent 60%);
+}
+#cnv{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-wrap{position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.h-ey{
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:10px;
+  opacity:0;animation:upIn .7s 1.2s forwards;
+}
+.ey-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.7)}}
+h1.big{
+  font-family:var(--serif);
+  font-size:clamp(56px,8.5vw,126px);
+  line-height:.9;letter-spacing:-.025em;color:var(--white);
+}
+h1.big span{display:block}
+h1.big .line1{opacity:0;animation:slideL .8s 1.35s cubic-bezier(.16,1,.3,1) forwards}
+h1.big .line2{opacity:0;animation:slideL .8s 1.52s cubic-bezier(.16,1,.3,1) forwards}
+h1.big .line3{opacity:0;animation:slideL .8s 1.68s cubic-bezier(.16,1,.3,1) forwards}
+h1.big em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+@keyframes slideL{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.h-sub{
+  font-size:clamp(14px,1.5vw,17px);color:var(--t2);font-weight:400;
+  line-height:1.8;margin-top:26px;max-width:480px;
+  opacity:0;animation:upIn .7s 1.85s forwards;
+}
+.h-sub strong{color:var(--t1);font-weight:600}
+.h-btns{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;opacity:0;animation:upIn .7s 2.0s forwards}
+.btn-g{
+  padding:14px 34px;background:var(--gold);color:#000;
+  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border-radius:3px;text-decoration:none;transition:background .2s,transform .2s;
+}
+.btn-g:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-o{
+  padding:14px 26px;border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.6);font-size:12px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;border-radius:3px;text-decoration:none;
+  transition:all .2s;display:flex;align-items:center;gap:8px;
+}
+.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.h-tags{display:flex;gap:8px;margin-top:38px;flex-wrap:wrap;opacity:0;animation:upIn .7s 2.15s forwards}
+.h-tag{
+  padding:5px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border);
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--t3);border-radius:2px;
+}
+.h-tag.gold{border-color:var(--goldb);color:var(--gold)}
+
+/* Hero stats */
+.h-stats{
+  border-left:1px solid var(--goldb);padding-left:48px;
+  display:flex;flex-direction:column;
+  opacity:0;animation:upIn .7s 1.85s forwards;
+}
+.h-st{padding:28px 0;border-bottom:1px solid var(--border)}
+.h-st:last-child{border-bottom:none}
+.h-st-num{font-family:var(--serif);font-size:clamp(44px,4.5vw,66px);color:var(--white);line-height:1;letter-spacing:-.02em}
+.h-st-suf{font-family:var(--serif);font-size:28px;color:var(--gold);font-style:italic}
+.h-st-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:8px}
+
+.scroll-cue{
+  position:absolute;bottom:36px;left:7%;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:upIn .7s 2.4s forwards;
+}
+.sc-line{width:1px;height:36px;background:var(--goldb);position:relative;overflow:hidden}
+.sc-line::after{
+  content:'';position:absolute;inset:0;background:var(--gold);
+  animation:drip 2s ease-in-out infinite;
+}
+@keyframes drip{0%{top:-100%}100%{top:200%}}
+.sc-txt{font-family:var(--mono);font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--t3);writing-mode:vertical-lr}
+
+@keyframes upIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+/* ─── MARQUEE ─── */
+.marquee{
+  background:var(--panel);
+  border-top:1px solid var(--goldb);border-bottom:1px solid var(--goldb);
+  padding:17px 0;overflow:hidden;
+}
+.m-track{
+  display:flex;align-items:center;gap:30px;
+  white-space:nowrap;animation:scroll 28s linear infinite;width:max-content;
+}
+.marquee:hover .m-track{animation-play-state:paused}
+.m-track span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.m-track .mdot{color:var(--gold);font-size:9px}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── ABOUT ─── */
+#about{
+  padding:110px 7%;background:var(--bg2);border-top:1px solid var(--border);
+}
+.about-grid{display:grid;grid-template-columns:5fr 6fr;gap:80px;align-items:start;margin-bottom:72px}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--goldf);border:1px solid var(--goldb);
+  color:var(--gold);font-family:var(--mono);font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;
+  padding:5px 14px;border-radius:2px;margin-bottom:18px;
+}
+.chip::before{content:'◆';font-size:6px}
+.chip.soft{background:rgba(255,255,255,.04);border-color:var(--border);color:var(--t3)}
+h2.sec{
+  font-family:var(--serif);font-size:clamp(34px,4vw,60px);
+  line-height:1.0;letter-spacing:-.025em;color:var(--white);
+}
+h2.sec em{font-style:italic;color:var(--gold)}
+.a-lead{
+  font-family:var(--serif);font-size:clamp(17px,1.8vw,22px);
+  color:var(--t1);line-height:1.65;margin-bottom:20px;font-weight:400;
+}
+.a-body{font-size:14px;color:var(--t2);line-height:1.95;font-weight:400}
+.a-body strong{color:var(--t1);font-weight:600}
+.a-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.a-pill{
+  padding:6px 15px;border:1px solid var(--border);border-radius:2px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--t3);
+}
+.a-pill:last-child{border-color:var(--goldb);color:var(--gold)}
+
+/* Timeline */
+.tl-box{background:var(--bg3);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.tl-head{
+  background:var(--bg);padding:18px 28px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--t3);
+  text-transform:uppercase;border-bottom:1px solid var(--border);
+}
+.tl-row{
+  display:grid;grid-template-columns:100px 1fr auto;
+  gap:20px;padding:20px 28px;
+  border-bottom:1px solid var(--border);align-items:start;
+  transition:background .2s;
+}
+.tl-row:last-child{border-bottom:none}
+.tl-row:hover{background:rgba(201,164,76,.03)}
+.tl-yr{font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:.1em;padding-top:3px}
+.tl-role{font-size:13px;font-weight:700;color:var(--white);margin-bottom:4px}
+.tl-co{font-size:11px;color:var(--t3)}
+.tl-note{font-family:var(--mono);font-size:9px;color:var(--t3);margin-top:5px;opacity:.7}
+.tl-badge{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;
+  padding:3px 9px;border-radius:2px;
+  background:var(--goldf);border:1px solid var(--goldb);color:var(--gold);
+  white-space:nowrap;
+}
+.avail{
+  display:flex;align-items:center;gap:10px;padding:16px 28px;
+  background:rgba(31,212,180,.05);border-top:1px solid rgba(31,212,180,.18);
+  font-size:12px;font-weight:500;color:#7de8d4;
+}
+.av-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;flex-shrink:0;animation:pulse 2s ease-in-out infinite}
+
+/* ─── IMPACT ─── */
+#impact{
+  padding:110px 7%;background:var(--bg);border-top:1px solid var(--border);
+}
+.impact-intro{margin-bottom:56px}
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ic{
+  background:var(--panel);border:1px solid var(--border);
+  padding:38px 34px;position:relative;overflow:hidden;
+  transition:border-color .3s;cursor:default;
+}
+.ic:hover{border-color:var(--goldb)}
+.ic-glow{
+  position:absolute;top:-30px;right:-30px;width:100px;height:100px;
+  background:radial-gradient(circle,rgba(201,164,76,.15),transparent 70%);
+  pointer-events:none;opacity:0;transition:opacity .4s;
+}
+.ic:hover .ic-glow{opacity:1}
+.ic-n{
+  font-family:var(--serif);font-size:clamp(38px,3.5vw,56px);
+  font-style:italic;color:var(--white);line-height:1;margin-bottom:14px;
+}
+.ic-n b{color:var(--gold);font-style:normal}
+.ic-l{font-size:12px;color:var(--t2);line-height:1.65}
+.ic-bar{margin-top:22px;height:1.5px;background:var(--border);border-radius:1px}
+.ic-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:1px;width:0;transition:width 1.3s cubic-bezier(.16,1,.3,1)}
+
+/* ─── SKILLS ─── */
+#skills{
+  padding:110px 7%;background:var(--bg2);border-top:1px solid var(--border);
+}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
+.sk-col{}
+.sk-head{font-family:var(--mono);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--goldb)}
+.sk-list{display:flex;flex-direction:column;gap:18px}
+.sk-row{display:flex;flex-direction:column;gap:7px}
+.sk-nm{font-size:12px;font-weight:600;color:var(--t1)}
+.sk-br{height:1.5px;background:var(--border);border-radius:1px}
+.sk-br div{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:1px;width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+
+/* ─── PROJECTS ─── */
+#projects{
+  padding:110px 7%;background:var(--bg);border-top:1px solid var(--border);
+}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.proj-ct{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--t3);text-transform:uppercase}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pc{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;display:flex;flex-direction:column;
+  transition:border-color .3s,box-shadow .3s;
+}
+.pc:hover{border-color:var(--goldb);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.pc.feat{grid-column:span 2;flex-direction:row}
+.pb{
+  padding:32px 32px 28px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--bg2),#141e35);
+  border-bottom:1px solid var(--border);
+}
+.pc.feat .pb{width:50%;flex-shrink:0;border-bottom:none;border-right:1px solid var(--border)}
+.pb2{background:linear-gradient(135deg,#0c1c0d,#0e2616)}
+.pb3{background:linear-gradient(135deg,#14100a,#201808)}
+.pb4{background:linear-gradient(135deg,#0c0d1c,#101228)}
+.pb-dots{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.pb-n{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:18px;position:relative}
+.pb-t{font-family:var(--serif);font-size:clamp(18px,2vw,28px);color:var(--white);line-height:1.15;letter-spacing:-.01em;position:relative}
+.pb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;position:relative}
+.pb-tags span{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:2px;
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.08);
+}
+.pbd{padding:28px 32px;flex:1;display:flex;flex-direction:column}
+.pbd p{font-size:13px;line-height:1.85;color:var(--t2);flex:1}
+.pm{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.pmi{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;padding:12px}
+.pmi-v{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--gold);line-height:1}
+.pmi-l{font-size:9px;color:var(--t3);margin-top:4px}
+.pf{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.pf-s{font-family:var(--mono);font-size:8px;letter-spacing:.12em;padding:3px 10px;border-radius:2px;background:rgba(255,255,255,.06);color:var(--t3);border:1px solid var(--border)}
+.pf-live{background:rgba(31,212,180,.1);border-color:rgba(31,212,180,.3);color:var(--teal)}
+.pf-r{font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:rgba(201,164,76,.4);text-transform:uppercase}
+
+/* ─── EDUCATION ─── */
+#edu{
+  background:var(--panel);border-top:1px solid var(--border);
+  padding:110px 7%;
+}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.edu-list{margin-top:36px;display:flex;flex-direction:column;gap:14px}
+.ei{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:6px;padding:22px 26px;transition:border-color .25s;
+}
+.ei:hover{border-color:var(--goldb)}
+.ei-deg{font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px}
+.ei-sc{font-size:11px;color:var(--t3)}
+.ei-meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px;flex-wrap:wrap}
+.ei-yr{font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:.1em}
+.ei-gd{font-size:10px;font-weight:700;padding:2px 9px;border-radius:2px;background:rgba(255,255,255,.05);color:var(--t3);border:1px solid var(--border)}
+.ei-gd.now{background:var(--goldf);border-color:var(--goldb);color:var(--gold)}
+.aw-list{margin-top:36px;display:flex;flex-direction:column}
+.aw{display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:1px solid var(--border);transition:padding-left .2s}
+.aw:last-child{border-bottom:none}
+.aw:hover{padding-left:6px}
+.aw-ico{
+  width:40px;height:40px;border-radius:6px;flex-shrink:0;
+  background:var(--goldf);border:1px solid var(--goldb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--gold);font-weight:700;
+}
+.aw-nm{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px}
+.aw-src{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.08em}
+
+/* ─── CONTACT ─── */
+#contact{
+  padding:110px 7%;background:var(--bg2);border-top:1px solid var(--border);
+}
+.ct-grid{display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start}
+.ct-head{font-family:var(--serif);font-size:clamp(38px,5vw,70px);line-height:1.0;letter-spacing:-.025em;color:var(--white);margin-bottom:20px}
+.ct-head em{font-style:italic;color:var(--gold)}
+.ct-sub{font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:36px}
+.ct-links{display:flex;flex-direction:column;gap:10px}
+.cl{
+  display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border:1px solid var(--border);border-radius:4px;text-decoration:none;
+  color:var(--t2);font-size:12px;font-weight:500;transition:all .25s;
+}
+.cl:hover{border-color:var(--goldb);color:var(--t1)}
+.cl-ic{
+  width:34px;height:34px;border-radius:4px;
+  background:var(--goldf);border:1px solid var(--goldb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;color:var(--gold);font-weight:700;flex-shrink:0;
+}
+.cf{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:42px}
+.cf-tit{font-size:17px;font-weight:700;color:var(--white);margin-bottom:28px}
+.cf-r{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fg{margin-bottom:18px}
+.fg label{
+  display:block;font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:7px;
+}
+.fg input,.fg textarea{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:4px;font-family:var(--sans);font-size:13px;
+  color:var(--t1);outline:none;
+  transition:border-color .2s,background .2s;resize:none;
+}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--t3)}
+.fg input:focus,.fg textarea:focus{border-color:var(--goldb);background:rgba(201,164,76,.03)}
+.fg textarea{min-height:130px}
+.cf-btn{
+  width:100%;padding:16px;
+  background:var(--gold);color:#000;
+  border:none;border-radius:4px;cursor:pointer;
+  font-family:var(--sans);font-size:13px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:background .2s,transform .15s;
+}
+.cf-btn:hover{background:var(--gold2);transform:translateY(-2px)}
+
+/* ─── TOAST ─── */
+#toast{
+  position:fixed;bottom:28px;right:28px;z-index:400;
+  background:var(--panel);color:var(--t1);
+  padding:13px 22px;border-radius:4px;font-size:12px;font-weight:500;
+  border-left:3px solid var(--gold);box-shadow:0 8px 40px rgba(0,0,0,.5);
+  transform:translateY(60px);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1);pointer-events:none;
+}
+#toast.on{transform:none;opacity:1}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--bg);border-top:1px solid var(--border);
+  padding:28px 7%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+}
+.fl{font-family:var(--serif);font-size:17px;color:var(--t3)}
+.fm{display:flex;gap:24px}
+.fm a{font-size:11px;color:var(--t3);text-decoration:none;transition:color .2s;letter-spacing:.05em}
+.fm a:hover{color:var(--gold)}
+.fr{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.12em}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .hero-wrap{grid-template-columns:1fr}
+  .h-stats{border-left:none;padding-left:0;flex-direction:row;flex-wrap:wrap;gap:0}
+  .h-st{padding:16px 36px 16px 0;border-bottom:none;border-right:1px solid var(--border);margin-right:36px}
+  .h-st:last-child{border-right:none;margin-right:0}
+  .h-st-lbl{display:none}
+  .about-grid,.ct-grid{grid-template-columns:1fr}
+  .ig{grid-template-columns:1fr 1fr}
+  .sk-grid{grid-template-columns:1fr 1fr}
+  .pg{grid-template-columns:1fr}
+  .pc.feat{flex-direction:column}
+  .pc.feat .pb{width:100%;border-right:none;border-bottom:1px solid var(--border)}
+  .edu-grid{grid-template-columns:1fr;gap:60px}
+}
+@media(max-width:768px){
+  nav{padding:0 5%}
+  .n-links{display:none}
+  .hbg{display:flex}
+  #hero,#about,#impact,#skills,#projects,#edu,#contact{padding-left:5%;padding-right:5%}
+  .ig{grid-template-columns:1fr}
+  .sk-grid{grid-template-columns:1fr}
+  .tl-row{grid-template-columns:1fr;gap:6px}
+  .cf-r{grid-template-columns:1fr}
+  .cf{padding:24px}
+  footer{flex-direction:column;text-align:center}
+}
+</style>
 </head>
 <body>
 
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-inner">
-      <div class="loader-line"></div>
-      <div class="loader-text"><span>A</span><span>U</span></div>
-    </div>
-  </div>
+<div id="bar"></div>
+<div id="toast">✓ Message sent successfully.</div>
 
-  <!-- CUSTOM CURSOR -->
-  <div id="cursor"></div>
-  <div id="cursor-trail"></div>
-
-  <!-- SCROLL PROGRESS -->
-  <div id="progress"></div>
-
-  <!-- TOAST -->
-  <div id="toast">✓ Message sent successfully.</div>
-
-  <!-- NAV -->
-  <nav id="nav">
-    <a href="#hero" class="nav-logo">
-      <span class="logo-mark">AU</span>
-      <span class="logo-text">Abhishek Ujjawal</span>
-    </a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#impact">Impact</a>
-      <a href="#projects">Work</a>
-      <a href="#education">Education</a>
-      <a href="#contact" class="nav-cta">
-        <span>Let's Talk</span>
-        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-    <button id="hamburger" aria-label="menu">
-      <span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- MOBILE NAV -->
-  <div id="mobile-menu">
+<nav id="nav">
+  <a href="#hero" class="n-logo">
+    <div class="n-mark">AU</div>
+    <span class="n-name">Abhishek Ujjawal</span>
+  </a>
+  <div class="n-links">
     <a href="#about">About</a>
     <a href="#impact">Impact</a>
     <a href="#projects">Work</a>
-    <a href="#education">Education</a>
-    <a href="#contact">Let's Talk</a>
+    <a href="#edu">Education</a>
+    <a href="#contact" class="n-cta">Let's Talk</a>
   </div>
+  <button class="hbg" id="hbg" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div id="mob">
+  <a href="#about">About</a>
+  <a href="#impact">Impact</a>
+  <a href="#projects">Work</a>
+  <a href="#edu">Education</a>
+  <a href="#contact">Let's Talk</a>
+</div>
 
-  <!-- ══ HERO ══ -->
-  <section id="hero">
-    <canvas id="market-canvas"></canvas>
-    <div class="hero-grid">
-      <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-dot"></span>
-          Quantitative Finance · Artificial Intelligence · Dublin
-        </div>
-        <h1 class="hero-headline">
-          <span class="h-line h-line-1">Designing</span>
-          <span class="h-line h-line-2"><em>Capital</em></span>
-          <span class="h-line h-line-3">Intelligence.</span>
-        </h1>
-        <p class="hero-sub">
-          10+ years shaping credit risk, portfolio architecture &amp; capital markets.<br/>
-          Now fusing <strong>machine learning</strong> with institutional finance.
-        </p>
-        <div class="hero-ctas">
-          <a href="#projects" class="cta-gold">View Work</a>
-          <a href="#contact" class="cta-ghost">Hire Me <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="hero-tags">
-          <span>Credit Risk</span>
-          <span>IFRS 9</span>
-          <span>Basel III</span>
-          <span>Monte Carlo</span>
-          <span>Stamp 1G</span>
-        </div>
+<!-- HERO -->
+<section id="hero">
+  <canvas id="cnv"></canvas>
+  <div class="hero-wrap">
+    <div>
+      <div class="h-ey"><span class="ey-dot"></span>Quantitative Finance · AI · Dublin</div>
+      <h1 class="big">
+        <span class="line1">Designing</span>
+        <span class="line2"><em>Capital</em></span>
+        <span class="line3">Intelligence.</span>
+      </h1>
+      <p class="h-sub">
+        10+ years shaping <strong>credit risk</strong>, capital markets &amp; regulatory frameworks.<br/>
+        Now fusing <strong>machine learning</strong> with institutional finance.
+      </p>
+      <div class="h-btns">
+        <a href="#projects" class="btn-g">View Work</a>
+        <a href="#contact" class="btn-o">Hire Me <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
-      <div class="hero-right">
-        <div class="hero-stat-stack">
-          <div class="h-stat">
-            <div class="h-stat-num" data-target="10">0</div>
-            <div class="h-stat-suffix">+</div>
-            <div class="h-stat-label">Years in Finance</div>
-          </div>
-          <div class="h-stat">
-            <div class="h-stat-num" data-target="500">0</div>
-            <div class="h-stat-suffix">M+</div>
-            <div class="h-stat-label">Portfolio Exposure (€)</div>
-          </div>
-          <div class="h-stat">
-            <div class="h-stat-num" data-target="28">0</div>
-            <div class="h-stat-suffix">%</div>
-            <div class="h-stat-label">Revenue Growth Driven</div>
-          </div>
-        </div>
+      <div class="h-tags">
+        <span class="h-tag">Credit Risk</span>
+        <span class="h-tag">IFRS 9</span>
+        <span class="h-tag">Basel III</span>
+        <span class="h-tag">Monte Carlo</span>
+        <span class="h-tag">IIT Patna · UCD</span>
+        <span class="h-tag gold">Stamp 1G — No Sponsorship</span>
       </div>
     </div>
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      <span>scroll</span>
-    </div>
-  </section>
-
-  <!-- ══ MARQUEE ══ -->
-  <div class="marquee-rail">
-    <div class="marquee-track">
-      <span>Credit Risk</span><span class="dot">✦</span>
-      <span>IFRS 9</span><span class="dot">✦</span>
-      <span>Monte Carlo Simulation</span><span class="dot">✦</span>
-      <span>Basel III</span><span class="dot">✦</span>
-      <span>Portfolio Optimisation</span><span class="dot">✦</span>
-      <span>Derivatives Pricing</span><span class="dot">✦</span>
-      <span>Markowitz</span><span class="dot">✦</span>
-      <span>Python · SQL · R</span><span class="dot">✦</span>
-      <span>Machine Learning</span><span class="dot">✦</span>
-      <span>Stress Testing</span><span class="dot">✦</span>
-      <span>ECL Modelling</span><span class="dot">✦</span>
-      <span>Time-Series Forecasting</span><span class="dot">✦</span>
-      <!-- duplicate for seamless loop -->
-      <span>Credit Risk</span><span class="dot">✦</span>
-      <span>IFRS 9</span><span class="dot">✦</span>
-      <span>Monte Carlo Simulation</span><span class="dot">✦</span>
-      <span>Basel III</span><span class="dot">✦</span>
-      <span>Portfolio Optimisation</span><span class="dot">✦</span>
-      <span>Derivatives Pricing</span><span class="dot">✦</span>
-      <span>Markowitz</span><span class="dot">✦</span>
-      <span>Python · SQL · R</span><span class="dot">✦</span>
-      <span>Machine Learning</span><span class="dot">✦</span>
-      <span>Stress Testing</span><span class="dot">✦</span>
-      <span>ECL Modelling</span><span class="dot">✦</span>
-      <span>Time-Series Forecasting</span><span class="dot">✦</span>
+    <div class="h-stats">
+      <div class="h-st">
+        <div style="display:flex;align-items:baseline;gap:4px">
+          <div class="h-st-num" id="c1">0</div>
+          <div class="h-st-suf">+</div>
+        </div>
+        <div class="h-st-lbl">Years in Finance</div>
+      </div>
+      <div class="h-st">
+        <div style="display:flex;align-items:baseline;gap:4px">
+          <div class="h-st-num" id="c2">0</div>
+          <div class="h-st-suf">M+</div>
+        </div>
+        <div class="h-st-lbl">Portfolio Exposure €</div>
+      </div>
+      <div class="h-st">
+        <div style="display:flex;align-items:baseline;gap:4px">
+          <div class="h-st-num" id="c3">0</div>
+          <div class="h-st-suf">%</div>
+        </div>
+        <div class="h-st-lbl">Revenue Growth Driven</div>
+      </div>
     </div>
   </div>
+  <div class="scroll-cue">
+    <div class="sc-line"></div>
+    <span class="sc-txt">scroll</span>
+  </div>
+</section>
 
-  <!-- ══ ABOUT ══ -->
-  <section id="about">
-    <div class="about-wrap reveal">
-      <div class="about-left">
-        <div class="chip">About</div>
-        <h2 class="section-title">Structured<br/><em>thinking.</em><br/>Data-driven<br/><em>execution.</em></h2>
-      </div>
-      <div class="about-right">
-        <p class="about-lead">
-          Finance risk leader with 10+ years of experience building and governing
-          credit analytics, capital optimisation frameworks, and regulatory compliance systems
-          across banking, fintech, and lending sectors.
-        </p>
-        <p class="about-body">
-          Currently completing an <strong>MSc in Quantitative Finance at UCD Smurfit</strong>,
-          specialising in derivatives pricing, Monte Carlo simulation, portfolio
-          optimisation, and AI-based forecasting systems. Holding a Stamp 1G visa —
-          available to work in Ireland without employer sponsorship.
-        </p>
-        <div class="about-pills">
-          <span>Risk Governance</span>
-          <span>Capital Markets</span>
-          <span>ML Systems</span>
-          <span>Basel III</span>
-          <span>IFRS 9</span>
-          <span>No Sponsorship Required</span>
-        </div>
-      </div>
-    </div>
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="m-track">
+    <span>Credit Risk</span><span class="mdot">✦</span>
+    <span>IFRS 9</span><span class="mdot">✦</span>
+    <span>Monte Carlo Simulation</span><span class="mdot">✦</span>
+    <span>Basel III</span><span class="mdot">✦</span>
+    <span>Portfolio Optimisation</span><span class="mdot">✦</span>
+    <span>Derivatives Pricing</span><span class="mdot">✦</span>
+    <span>Markowitz Frontier</span><span class="mdot">✦</span>
+    <span>Python · SQL · R</span><span class="mdot">✦</span>
+    <span>Machine Learning</span><span class="mdot">✦</span>
+    <span>Stress Testing</span><span class="mdot">✦</span>
+    <span>ECL Modelling</span><span class="mdot">✦</span>
+    <span>Time-Series Forecasting</span><span class="mdot">✦</span>
+    <span>Credit Risk</span><span class="mdot">✦</span>
+    <span>IFRS 9</span><span class="mdot">✦</span>
+    <span>Monte Carlo Simulation</span><span class="mdot">✦</span>
+    <span>Basel III</span><span class="mdot">✦</span>
+    <span>Portfolio Optimisation</span><span class="mdot">✦</span>
+    <span>Derivatives Pricing</span><span class="mdot">✦</span>
+    <span>Markowitz Frontier</span><span class="mdot">✦</span>
+    <span>Python · SQL · R</span><span class="mdot">✦</span>
+    <span>Machine Learning</span><span class="mdot">✦</span>
+    <span>Stress Testing</span><span class="mdot">✦</span>
+    <span>ECL Modelling</span><span class="mdot">✦</span>
+    <span>Time-Series Forecasting</span><span class="mdot">✦</span>
+  </div>
+</div>
 
-    <!-- Experience Timeline -->
-    <div class="timeline-wrap reveal d2">
-      <div class="timeline-header">// Career Timeline</div>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-year">2024–2026</div>
-          <div class="tl-content">
-            <div class="tl-role">MSc Quantitative Finance</div>
-            <div class="tl-company">University College Dublin — Smurfit Business School</div>
-            <div class="tl-note">Derivatives · Monte Carlo · Portfolio Optimisation · AI Forecasting</div>
-          </div>
-          <div class="tl-tag accent">Current</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-year">2023–2024</div>
-          <div class="tl-content">
-            <div class="tl-role">Senior Credit Risk Manager</div>
-            <div class="tl-company">Financial Institution · India</div>
-            <div class="tl-note">Portfolio governance · Stress testing · Regulatory reporting</div>
-          </div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-year">2019–2023</div>
-          <div class="tl-content">
-            <div class="tl-role">Credit Risk Analyst → Lead</div>
-            <div class="tl-company">Lending / Fintech Sector</div>
-            <div class="tl-note">ECL modelling · IFRS 9 · Scorecard development · Capital allocation</div>
-          </div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-year">2014–2019</div>
-          <div class="tl-content">
-            <div class="tl-role">Risk &amp; Analytics Associate</div>
-            <div class="tl-company">Banking Sector · India</div>
-            <div class="tl-note">Originations analytics · PD/LGD modelling · Regulatory compliance</div>
-          </div>
-        </div>
-      </div>
-      <div class="avail-strip">
-        <div class="avail-pulse"></div>
-        Available for full-time Quant Finance &amp; Risk roles · Stamp 1G · Dublin, Ireland
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid rv">
+    <div>
+      <div class="chip">About</div>
+      <h2 class="sec">Structured<br/><em>thinking.</em><br/>Data-driven<br/><em>execution.</em></h2>
+    </div>
+    <div>
+      <p class="a-lead">Finance risk leader with 10+ years building and governing credit analytics, capital optimisation frameworks, and regulatory compliance systems.</p>
+      <p class="a-body">Currently completing an <strong>MSc in Quantitative Finance at UCD Smurfit</strong>, specialising in derivatives pricing, Monte Carlo simulation, portfolio optimisation, and AI-based forecasting systems. Holding a <strong>Stamp 1G visa</strong> — available to work in Ireland without employer sponsorship.</p>
+      <div class="a-pills">
+        <span class="a-pill">Risk Governance</span>
+        <span class="a-pill">Capital Markets</span>
+        <span class="a-pill">ML Systems</span>
+        <span class="a-pill">Basel III · IFRS 9</span>
+        <span class="a-pill">No Sponsorship Required</span>
       </div>
     </div>
-  </section>
-
-  <!-- ══ IMPACT ══ -->
-  <section id="impact">
-    <div class="impact-intro reveal">
-      <div class="chip chip-light">Quantified Impact</div>
-      <h2 class="section-title">Numbers that<br/><em>define the work.</em></h2>
-    </div>
-    <div class="impact-grid">
-      <div class="impact-card reveal d1" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">+28<span>%</span></div>
-        <div class="ic-label">Revenue growth via risk-aligned portfolio strategy</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:78%"></div></div>
-      </div>
-      <div class="impact-card reveal d2" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">−97<span>%</span></div>
-        <div class="ic-label">Default reduction vs industry benchmark</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:97%"></div></div>
-      </div>
-      <div class="impact-card reveal d3" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">+30<span>%</span></div>
-        <div class="ic-label">ECL forecast accuracy improvement</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:60%"></div></div>
-      </div>
-      <div class="impact-card reveal d1" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">€500<span>M+</span></div>
-        <div class="ic-label">Portfolio exposure managed and governed</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:85%"></div></div>
-      </div>
-      <div class="impact-card reveal d2" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">10<span>+</span></div>
-        <div class="ic-label">Years across banking, fintech &amp; capital markets</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:70%"></div></div>
-      </div>
-      <div class="impact-card reveal d3" data-tilt>
-        <div class="ic-glow"></div>
-        <div class="ic-num">4<span>x</span></div>
-        <div class="ic-label">Cross-sector risk framework deployments</div>
-        <div class="ic-bar"><div class="ic-bar-fill" style="width:50%"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ SKILLS ══ -->
-  <section id="skills">
-    <div class="skills-intro reveal">
-      <div class="chip">Expertise</div>
-      <h2 class="section-title">The <em>Toolkit.</em></h2>
-    </div>
-    <div class="skills-cols reveal d2">
-      <div class="skill-col">
-        <div class="sc-label">// Quantitative Finance</div>
-        <div class="skill-list">
-          <div class="skill-row"><span class="sk-name">Derivatives Pricing</span><div class="sk-bar"><div style="width:92%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Monte Carlo Simulation</span><div class="sk-bar"><div style="width:88%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Portfolio Optimisation</span><div class="sk-bar"><div style="width:90%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">ECL / IFRS 9</span><div class="sk-bar"><div style="width:95%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Credit Risk Modelling</span><div class="sk-bar"><div style="width:97%"></div></div></div>
-        </div>
-      </div>
-      <div class="skill-col">
-        <div class="sc-label">// Data Science & AI</div>
-        <div class="skill-list">
-          <div class="skill-row"><span class="sk-name">Python (Pandas, NumPy)</span><div class="sk-bar"><div style="width:88%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Machine Learning (scikit-learn)</span><div class="sk-bar"><div style="width:82%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Time-Series Forecasting</span><div class="sk-bar"><div style="width:85%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">SQL &amp; Data Engineering</span><div class="sk-bar"><div style="width:90%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">R / Statistical Modelling</span><div class="sk-bar"><div style="width:80%"></div></div></div>
-        </div>
-      </div>
-      <div class="skill-col">
-        <div class="sc-label">// Risk & Regulation</div>
-        <div class="skill-list">
-          <div class="skill-row"><span class="sk-name">Basel III / CRR</span><div class="sk-bar"><div style="width:91%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Stress Testing</span><div class="sk-bar"><div style="width:87%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">PD / LGD / EAD</span><div class="sk-bar"><div style="width:94%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Capital Allocation</span><div class="sk-bar"><div style="width:89%"></div></div></div>
-          <div class="skill-row"><span class="sk-name">Regulatory Reporting</span><div class="sk-bar"><div style="width:93%"></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ PROJECTS ══ -->
-  <section id="projects">
-    <div class="projects-head reveal">
+  </div>
+  <div class="tl-box rv d2">
+    <div class="tl-head">// Career Timeline</div>
+    <div class="tl-row">
+      <div class="tl-yr">2024–2026</div>
       <div>
-        <div class="chip">Projects</div>
-        <h2 class="section-title">Applied<br/><em>Quantitative</em><br/>Systems.</h2>
+        <div class="tl-role">MSc Quantitative Finance</div>
+        <div class="tl-co">University College Dublin — Smurfit Business School</div>
+        <div class="tl-note">Derivatives · Monte Carlo · Portfolio Optimisation · AI Forecasting</div>
       </div>
-      <div class="proj-count-badge">04 Projects</div>
+      <div class="tl-badge">Current</div>
     </div>
-    <div class="proj-grid">
-
-      <!-- P1 Featured -->
-      <div class="proj-card p-featured reveal" data-tilt>
-        <div class="pc-banner">
-          <div class="pc-dots"></div>
-          <div class="pc-num">01 · MSc Project · 2025–26</div>
-          <h3 class="pc-title">IFRS 9 Expected Credit Loss<br/>Simulation Engine</h3>
-          <div class="pc-tags">
-            <span>Monte Carlo</span><span>PD/LGD/EAD</span>
-            <span>Python</span><span>Stress Testing</span><span>Regulatory</span>
-          </div>
-        </div>
-        <div class="pc-body">
-          <p>Full ECL simulation framework integrating probability of default, loss given default,
-          and exposure at default models. Multi-scenario stress testing across economic cycles
-          with regulatory-compliant output reporting under IFRS 9 Stage 1, 2 &amp; 3.</p>
-          <div class="pc-metrics">
-            <div class="pcm"><div class="pcm-val">+30%</div><div class="pcm-lbl">Forecast accuracy</div></div>
-            <div class="pcm"><div class="pcm-val">3 stages</div><div class="pcm-lbl">IFRS 9 compliant</div></div>
-            <div class="pcm"><div class="pcm-val">10K+</div><div class="pcm-lbl">Simulations</div></div>
-          </div>
-          <div class="pc-footer">
-            <span class="pc-status">In Progress</span>
-            <span class="pc-label-right">QUANTITATIVE FINANCE</span>
-          </div>
-        </div>
+    <div class="tl-row">
+      <div class="tl-yr">2020–2024</div>
+      <div>
+        <div class="tl-role">Senior Credit Risk Manager</div>
+        <div class="tl-co">Financial Institution · India</div>
+        <div class="tl-note">Portfolio governance · Stress testing · Regulatory reporting</div>
       </div>
-
-      <!-- P2 -->
-      <div class="proj-card reveal d1" data-tilt>
-        <div class="pc-banner pc-b2">
-          <div class="pc-dots"></div>
-          <div class="pc-num">02 · Credit Analytics · 2022–2023</div>
-          <h3 class="pc-title">ML Credit Risk<br/>Scorecard System</h3>
-          <div class="pc-tags">
-            <span>Logistic Regression</span><span>XGBoost</span>
-            <span>Python</span><span>WoE/IV</span>
-          </div>
-        </div>
-        <div class="pc-body">
-          <p>Behavioural and application scorecard development reducing defaults by 97% vs industry
-          benchmark. Feature engineering with Weight of Evidence, champion-challenger testing.</p>
-          <div class="pc-footer">
-            <span class="pc-status pc-live">Deployed</span>
-            <span class="pc-label-right">RISK MODELLING</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- P3 -->
-      <div class="proj-card reveal d2" data-tilt>
-        <div class="pc-banner pc-b3">
-          <div class="pc-dots"></div>
-          <div class="pc-num">03 · Portfolio Research · 2024</div>
-          <h3 class="pc-title">Portfolio Optimisation<br/>Engine</h3>
-          <div class="pc-tags">
-            <span>Markowitz</span><span>CAPM</span>
-            <span>Efficient Frontier</span><span>Python</span>
-          </div>
-        </div>
-        <div class="pc-body">
-          <p>Mean-variance portfolio construction with Sharpe ratio maximisation, efficient frontier
-          visualisation, and dynamic rebalancing strategy under varying risk appetite scenarios.</p>
-          <div class="pc-footer">
-            <span class="pc-status">Research</span>
-            <span class="pc-label-right">PORTFOLIO THEORY</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- P4 -->
-      <div class="proj-card reveal d3" data-tilt>
-        <div class="pc-banner pc-b4">
-          <div class="pc-dots"></div>
-          <div class="pc-num">04 · ML Finance · 2024</div>
-          <h3 class="pc-title">Asset Price<br/>Forecasting Model</h3>
-          <div class="pc-tags">
-            <span>LSTM</span><span>ARIMA</span>
-            <span>Feature Engineering</span><span>PyTorch</span>
-          </div>
-        </div>
-        <div class="pc-body">
-          <p>Hybrid LSTM + ARIMA time-series framework forecasting equity price movements with
-          sentiment overlay and regime-detection logic for adaptive model switching.</p>
-          <div class="pc-footer">
-            <span class="pc-status">Research</span>
-            <span class="pc-label-right">AI + FINANCE</span>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </section>
+    <div class="tl-row">
+      <div class="tl-yr">2016–2020</div>
+      <div>
+        <div class="tl-role">Credit Risk Analyst → Lead</div>
+        <div class="tl-co">Lending / Fintech Sector</div>
+        <div class="tl-note">ECL modelling · IFRS 9 · Scorecard development · Capital allocation</div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-yr">2013–2016</div>
+      <div>
+        <div class="tl-role">Risk &amp; Analytics Associate</div>
+        <div class="tl-co">Banking Sector · India</div>
+        <div class="tl-note">Originations analytics · PD/LGD modelling · Regulatory compliance</div>
+      </div>
+    </div>
+    <div class="avail">
+      <div class="av-dot"></div>
+      Available for full-time Quant Finance &amp; Risk roles · Stamp 1G · Dublin, Ireland
+    </div>
+  </div>
+</section>
 
-  <!-- ══ EDUCATION & AWARDS ══ -->
-  <section id="education">
-    <div class="edu-wrap">
-      <div class="edu-left reveal">
-        <div class="chip chip-light">Education</div>
-        <h2 class="section-title">Academic<br/><em>Foundations.</em></h2>
-        <div class="edu-list">
-          <div class="edu-item">
-            <div class="edu-degree">MSc Quantitative Finance</div>
-            <div class="edu-school">University College Dublin — Smurfit Business School</div>
-            <div class="edu-meta"><span class="edu-year">2024 – 2026</span><span class="edu-grade current">In Progress</span></div>
-          </div>
-          <div class="edu-item">
-            <div class="edu-degree">MBA — Finance Specialisation</div>
-            <div class="edu-school">Business School · India</div>
-            <div class="edu-meta"><span class="edu-year">2012 – 2014</span><span class="edu-grade">69.28%</span></div>
-          </div>
-          <div class="edu-item">
-            <div class="edu-degree">B.Tech in Engineering</div>
-            <div class="edu-school">IIT Patna</div>
-            <div class="edu-meta"><span class="edu-year">2008 – 2012</span><span class="edu-grade">71.50%</span></div>
-          </div>
+<!-- IMPACT -->
+<section id="impact">
+  <div class="impact-intro rv">
+    <div class="chip soft">Quantified Impact</div>
+    <h2 class="sec">Numbers that<br/><em>define the work.</em></h2>
+  </div>
+  <div class="ig">
+    <div class="ic rv d1">
+      <div class="ic-glow"></div>
+      <div class="ic-n">+28<b>%</b></div>
+      <div class="ic-l">Revenue growth via risk-aligned portfolio strategy</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="78"></div></div>
+    </div>
+    <div class="ic rv d2">
+      <div class="ic-glow"></div>
+      <div class="ic-n">−97<b>%</b></div>
+      <div class="ic-l">Default reduction vs industry benchmark</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="97"></div></div>
+    </div>
+    <div class="ic rv d3">
+      <div class="ic-glow"></div>
+      <div class="ic-n">+30<b>%</b></div>
+      <div class="ic-l">ECL forecast accuracy improvement</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="60"></div></div>
+    </div>
+    <div class="ic rv d1">
+      <div class="ic-glow"></div>
+      <div class="ic-n">€500<b>M+</b></div>
+      <div class="ic-l">Portfolio exposure managed and governed</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="85"></div></div>
+    </div>
+    <div class="ic rv d2">
+      <div class="ic-glow"></div>
+      <div class="ic-n">10<b>+</b></div>
+      <div class="ic-l">Years across banking, fintech &amp; capital markets</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="70"></div></div>
+    </div>
+    <div class="ic rv d3">
+      <div class="ic-glow"></div>
+      <div class="ic-n">4<b>×</b></div>
+      <div class="ic-l">Cross-sector risk framework deployments</div>
+      <div class="ic-bar"><div class="ic-fill" data-w="50"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="rv">
+    <div class="chip">Expertise</div>
+    <h2 class="sec">The <em>Toolkit.</em></h2>
+  </div>
+  <div class="sk-grid rv d2" id="skgrid">
+    <div class="sk-col">
+      <div class="sk-head">// Quantitative Finance</div>
+      <div class="sk-list">
+        <div class="sk-row"><span class="sk-nm">Credit Risk Modelling</span><div class="sk-br"><div data-w="97"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">IFRS 9 / ECL Frameworks</span><div class="sk-br"><div data-w="95"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Portfolio Optimisation</span><div class="sk-br"><div data-w="90"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Monte Carlo Simulation</span><div class="sk-br"><div data-w="86"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Derivatives Pricing</span><div class="sk-br"><div data-w="82"></div></div></div>
+      </div>
+    </div>
+    <div class="sk-col">
+      <div class="sk-head">// Data Science & AI</div>
+      <div class="sk-list">
+        <div class="sk-row"><span class="sk-nm">Python (Pandas, NumPy, SciPy)</span><div class="sk-br"><div data-w="88"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Machine Learning (scikit-learn)</span><div class="sk-br"><div data-w="82"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Time-Series Forecasting</span><div class="sk-br"><div data-w="84"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">SQL & Data Engineering</span><div class="sk-br"><div data-w="90"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">R / Statistical Modelling</span><div class="sk-br"><div data-w="80"></div></div></div>
+      </div>
+    </div>
+    <div class="sk-col">
+      <div class="sk-head">// Risk & Regulation</div>
+      <div class="sk-list">
+        <div class="sk-row"><span class="sk-nm">Basel III / CRR</span><div class="sk-br"><div data-w="91"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Stress Testing</span><div class="sk-br"><div data-w="88"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">PD / LGD / EAD Modelling</span><div class="sk-br"><div data-w="94"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Capital Allocation</span><div class="sk-br"><div data-w="89"></div></div></div>
+        <div class="sk-row"><span class="sk-nm">Regulatory Reporting</span><div class="sk-br"><div data-w="93"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="proj-top rv">
+    <div>
+      <div class="chip">Projects</div>
+      <h2 class="sec">Applied<br/><em>Quantitative</em><br/>Systems.</h2>
+    </div>
+    <div class="proj-ct">04 Projects</div>
+  </div>
+  <div class="pg">
+    <div class="pc feat rv">
+      <div class="pb">
+        <div class="pb-dots"></div>
+        <div class="pb-n">01 · MSc Project · 2025–26</div>
+        <div class="pb-t">IFRS 9 Expected Credit Loss<br/>Simulation Engine</div>
+        <div class="pb-tags">
+          <span>Monte Carlo</span><span>PD/LGD/EAD</span><span>Python</span><span>Stress Testing</span><span>IFRS 9</span>
         </div>
       </div>
-      <div class="edu-right reveal d2">
-        <div class="chip chip-gold">Certifications & Recognition</div>
-        <h2 class="section-title">Awards &amp;<br/><em>Credentials.</em></h2>
-        <div class="award-list">
-          <div class="award-item">
-            <div class="award-ico">◈</div>
-            <div>
-              <div class="award-name">CFA Program Candidate</div>
-              <div class="award-src">CFA Institute</div>
-            </div>
-          </div>
-          <div class="award-item">
-            <div class="award-ico">◈</div>
-            <div>
-              <div class="award-name">Financial Risk Manager (FRM) — Part I</div>
-              <div class="award-src">GARP</div>
-            </div>
-          </div>
-          <div class="award-item">
-            <div class="award-ico">◈</div>
-            <div>
-              <div class="award-name">Advanced Excel & Financial Modelling</div>
-              <div class="award-src">Wall Street Prep</div>
-            </div>
-          </div>
-          <div class="award-item">
-            <div class="award-ico">◈</div>
-            <div>
-              <div class="award-name">Risk Management Excellence</div>
-              <div class="award-src">Industry Recognition</div>
-            </div>
-          </div>
+      <div class="pbd">
+        <p>Full ECL simulation framework integrating probability of default, loss given default and exposure at default models. Multi-scenario stress testing across economic cycles with IFRS 9 Stage 1, 2 &amp; 3 compliant output reporting and regulatory documentation.</p>
+        <div class="pm">
+          <div class="pmi"><div class="pmi-v">+30%</div><div class="pmi-l">Forecast accuracy</div></div>
+          <div class="pmi"><div class="pmi-v">3 Stage</div><div class="pmi-l">IFRS 9 compliant</div></div>
+          <div class="pmi"><div class="pmi-v">10K+</div><div class="pmi-l">Simulations</div></div>
+        </div>
+        <div class="pf">
+          <span class="pf-s">In Progress</span>
+          <span class="pf-r">Quantitative Finance</span>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ══ CONTACT ══ -->
-  <section id="contact">
-    <div class="contact-wrap">
-      <div class="contact-left reveal">
-        <div class="chip">Contact</div>
-        <h2 class="contact-title">Let's build<br/><em>something</em><br/>exceptional.</h2>
-        <p class="contact-sub">
-          Open to full-time Quantitative Finance, Risk, and Data Science roles in Dublin and beyond.
-          Available immediately. Stamp 1G — no sponsorship required.
-        </p>
-        <div class="contact-links">
-          <a href="mailto:abhishek.ujjawal@ucdconnect.ie" class="cl-item">
-            <span class="cl-icon">✉</span>
-            <span>abhishek.ujjawal@ucdconnect.ie</span>
-          </a>
-          <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank" class="cl-item">
-            <span class="cl-icon">in</span>
-            <span>linkedin.com/in/abhishek-ujjawal</span>
-          </a>
-        </div>
+    <div class="pc rv d1">
+      <div class="pb pb2">
+        <div class="pb-dots"></div>
+        <div class="pb-n">02 · Credit Analytics · 2022–2023</div>
+        <div class="pb-t">ML Credit Risk<br/>Scorecard System</div>
+        <div class="pb-tags"><span>Logistic Regression</span><span>XGBoost</span><span>WoE/IV</span><span>Python</span></div>
       </div>
-      <div class="contact-right reveal d2">
-        <div class="cf-box">
-          <div class="cf-title">Send a message</div>
-          <div class="cf-row">
-            <div class="cf-group"><label>Name</label><input type="text" id="fn" placeholder="Jane Smith"/></div>
-            <div class="cf-group"><label>Email</label><input type="email" id="fe" placeholder="jane@firm.com"/></div>
-          </div>
-          <div class="cf-group"><label>Subject</label><input type="text" id="fs" placeholder="Quant Analyst Role at..."/></div>
-          <div class="cf-group"><label>Message</label><textarea id="fm" placeholder="Tell me about the opportunity…"></textarea></div>
-          <button class="cf-send" onclick="sendMsg()">Send Message <span>→</span></button>
+      <div class="pbd">
+        <p>Behavioural and application scorecard cutting defaults by 97% vs industry benchmark. Weight of Evidence feature engineering, champion-challenger testing, and automated monitoring.</p>
+        <div class="pf">
+          <span class="pf-s pf-live">Deployed</span>
+          <span class="pf-r">Risk Modelling</span>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ══ FOOTER ══ -->
-  <footer>
-    <div class="footer-logo">Abhishek Ujjawal</div>
-    <div class="footer-mid">
-      <a href="mailto:abhishek.ujjawal@ucdconnect.ie">Email</a>
-      <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank">LinkedIn</a>
+    <div class="pc rv d2">
+      <div class="pb pb3">
+        <div class="pb-dots"></div>
+        <div class="pb-n">03 · Portfolio Research · 2024</div>
+        <div class="pb-t">Portfolio Optimisation<br/>Engine</div>
+        <div class="pb-tags"><span>Markowitz</span><span>CAPM</span><span>Efficient Frontier</span><span>Python</span></div>
+      </div>
+      <div class="pbd">
+        <p>Mean-variance portfolio construction with Sharpe ratio maximisation, efficient frontier visualisation, and dynamic rebalancing under varying risk appetite scenarios.</p>
+        <div class="pf">
+          <span class="pf-s">Research</span>
+          <span class="pf-r">Portfolio Theory</span>
+        </div>
+      </div>
     </div>
-    <div class="footer-right">Stamp 1G · Dublin © 2025</div>
-  </footer>
+    <div class="pc rv d3">
+      <div class="pb pb4">
+        <div class="pb-dots"></div>
+        <div class="pb-n">04 · ML Finance · 2024</div>
+        <div class="pb-t">Asset Price<br/>Forecasting Model</div>
+        <div class="pb-tags"><span>LSTM</span><span>ARIMA</span><span>PyTorch</span><span>Regime Detection</span></div>
+      </div>
+      <div class="pbd">
+        <p>Hybrid LSTM + ARIMA time-series framework forecasting equity price movements with sentiment overlay and adaptive regime-detection logic for model switching.</p>
+        <div class="pf">
+          <span class="pf-s">Research</span>
+          <span class="pf-r">AI + Finance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="script.js"></script>
+<!-- EDUCATION -->
+<section id="edu">
+  <div class="edu-grid">
+    <div class="rv">
+      <div class="chip">Education</div>
+      <h2 class="sec">Academic<br/><em>Foundations.</em></h2>
+      <div class="edu-list">
+        <div class="ei">
+          <div class="ei-deg">MSc Quantitative Finance</div>
+          <div class="ei-sc">University College Dublin — Smurfit Business School</div>
+          <div class="ei-meta"><span class="ei-yr">2024 – 2026</span><span class="ei-gd now">In Progress</span></div>
+        </div>
+        <div class="ei">
+          <div class="ei-deg">MBA — Finance Specialisation</div>
+          <div class="ei-sc">Business School · India</div>
+          <div class="ei-meta"><span class="ei-yr">2012 – 2014</span><span class="ei-gd">69.28%</span></div>
+        </div>
+        <div class="ei">
+          <div class="ei-deg">B.Tech in Engineering</div>
+          <div class="ei-sc">IIT Patna</div>
+          <div class="ei-meta"><span class="ei-yr">2008 – 2012</span><span class="ei-gd">71.50%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="chip" style="background:rgba(201,164,76,.08);border-color:rgba(201,164,76,.22);color:var(--gold)">Credentials</div>
+      <h2 class="sec">Awards &amp;<br/><em>Recognition.</em></h2>
+      <div class="aw-list">
+        <div class="aw"><div class="aw-ico">◈</div><div><div class="aw-nm">CFA Program Candidate</div><div class="aw-src">CFA Institute</div></div></div>
+        <div class="aw"><div class="aw-ico">◈</div><div><div class="aw-nm">Financial Risk Manager (FRM) — Part I</div><div class="aw-src">GARP</div></div></div>
+        <div class="aw"><div class="aw-ico">◈</div><div><div class="aw-nm">Advanced Financial Modelling</div><div class="aw-src">Wall Street Prep</div></div></div>
+        <div class="aw"><div class="aw-ico">◈</div><div><div class="aw-nm">Risk Management Excellence Award</div><div class="aw-src">Industry Recognition</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ct-grid">
+    <div class="rv">
+      <div class="chip">Contact</div>
+      <div class="ct-head">Let's build<br/><em>something</em><br/>exceptional.</div>
+      <p class="ct-sub">Open to full-time Quantitative Finance, Risk Analytics, and Data Science roles in Dublin and beyond. Available immediately.</p>
+      <div class="ct-links">
+        <a href="mailto:abhishek.ujjawal@ucdconnect.ie" class="cl">
+          <div class="cl-ic">✉</div>
+          abhishek.ujjawal@ucdconnect.ie
+        </a>
+        <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank" class="cl">
+          <div class="cl-ic">in</div>
+          linkedin.com/in/abhishek-ujjawal
+        </a>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="cf">
+        <div class="cf-tit">Send a message</div>
+        <div class="cf-r">
+          <div class="fg"><label>Name</label><input type="text" id="fn" placeholder="Jane Smith"/></div>
+          <div class="fg"><label>Email</label><input type="email" id="fe" placeholder="jane@firm.com"/></div>
+        </div>
+        <div class="fg"><label>Subject</label><input type="text" id="fs" placeholder="Quant Analyst Role at..."/></div>
+        <div class="fg"><label>Message</label><textarea id="fm" placeholder="Tell me about the opportunity…"></textarea></div>
+        <button class="cf-btn" onclick="sendMsg()">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">Abhishek Ujjawal</div>
+  <div class="fm">
+    <a href="mailto:abhishek.ujjawal@ucdconnect.ie">Email</a>
+    <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank">LinkedIn</a>
+  </div>
+  <div class="fr">Stamp 1G · Dublin · © 2025</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+/* ── CANVAS: Animated market streams + particle network ── */
+(function(){
+  const canvas=document.getElementById('cnv');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,mouse={x:-9999,y:-9999};
+  const PTS=[],STREAMS=[];
+
+  function resize(){
+    const hero=document.getElementById('hero');
+    W=canvas.width=hero.offsetWidth;
+    H=canvas.height=hero.offsetHeight;
+    buildStreams();
+  }
+
+  /* Floating particles */
+  class Pt{
+    constructor(init){
+      this.x=Math.random()*W;
+      this.y=init?Math.random()*H:-10;
+      this.vx=(Math.random()-.5)*.4;
+      this.vy=(Math.random()-.5)*.4;
+      this.r=Math.random()*1.6+.7;
+      this.a=Math.random()*.35+.12;
+    }
+    step(){
+      const dx=mouse.x-this.x,dy=mouse.y-this.y,d=Math.hypot(dx,dy);
+      if(d<200&&d>0){const f=(200-d)/200*.013;this.vx+=dx/d*f;this.vy+=dy/d*f;}
+      this.vx+=(Math.random()-.5)*.007;this.vy+=(Math.random()-.5)*.007;
+      this.vx*=.993;this.vy*=.993;
+      if(Math.hypot(this.vx,this.vy)<.07){this.vx+=(Math.random()-.5)*.04;this.vy+=(Math.random()-.5)*.04;}
+      this.x+=this.vx;this.y+=this.vy;
+      if(this.x<-20)this.x=W+20;if(this.x>W+20)this.x=-20;
+      if(this.y<-20)this.y=H+20;if(this.y>H+20)this.y=-20;
+    }
+    draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,164,76,${this.a})`;ctx.fill();}
+  }
+
+  /* Candlestick-style price streams */
+  class Stream{
+    constructor(i){
+      this.i=i;this.pts=[];
+      this.col=i%2===0?'201,164,76':'43,90,232';
+      this.a=.055+Math.random()*.04;
+      this.spd=.35+Math.random()*.45;
+    }
+    build(){
+      this.y=(H/6)*this.i+H/12+H*.05;
+      this.pts=[];let v=0;
+      for(let x=0;x<=W+20;x+=7){v+=(Math.random()-.49)*6;v=Math.max(-90,Math.min(90,v));this.pts.push({x,v});}
+    }
+    step(){
+      this.pts.forEach(p=>p.x-=this.spd);
+      if(this.pts[0].x<-20){
+        this.pts.shift();
+        const l=this.pts[this.pts.length-1];
+        const nv=Math.max(-90,Math.min(90,l.v+(Math.random()-.49)*6));
+        this.pts.push({x:l.x+7,v:nv});
+      }
+    }
+    draw(){
+      if(this.pts.length<2)return;
+      ctx.beginPath();ctx.moveTo(this.pts[0].x,this.y+this.pts[0].v*.32);
+      for(let i=1;i<this.pts.length;i++){
+        const p0=this.pts[i-1],p1=this.pts[i];
+        const mx=(p0.x+p1.x)/2;
+        ctx.quadraticCurveTo(p0.x,this.y+p0.v*.32,mx,(this.y+p0.v*.32+this.y+p1.v*.32)/2);
+      }
+      ctx.strokeStyle=`rgba(${this.col},${this.a})`;ctx.lineWidth=1;ctx.stroke();
+    }
+  }
+
+  function buildStreams(){
+    STREAMS.length=0;for(let i=0;i<6;i++){const s=new Stream(i);s.build();STREAMS.push(s);}
+  }
+  function buildPts(){
+    PTS.length=0;const n=Math.floor(55*(W/1440)+22);for(let i=0;i<n;i++)PTS.push(new Pt(true));
+  }
+  function drawLinks(){
+    for(let i=0;i<PTS.length;i++)for(let j=i+1;j<PTS.length;j++){
+      const d=Math.hypot(PTS[i].x-PTS[j].x,PTS[i].y-PTS[j].y);
+      if(d<170){ctx.beginPath();ctx.moveTo(PTS[i].x,PTS[i].y);ctx.lineTo(PTS[j].x,PTS[j].y);ctx.strokeStyle=`rgba(201,164,76,${(1-d/170)*.15})`;ctx.lineWidth=.8;ctx.stroke();}
+    }
+  }
+  function drawMouse(){
+    PTS.forEach(p=>{const d=Math.hypot(p.x-mouse.x,p.y-mouse.y);if(d<200){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(201,164,76,${(1-d/200)*.5})`;ctx.lineWidth=1.1;ctx.stroke();}});
+  }
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    STREAMS.forEach(s=>{s.step();s.draw();});
+    drawLinks();drawMouse();
+    PTS.forEach(p=>{p.step();p.draw();});
+    requestAnimationFrame(loop);
+  }
+
+  const hero=document.getElementById('hero');
+  hero.addEventListener('mousemove',e=>{const r=hero.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+  hero.addEventListener('mouseleave',()=>{mouse.x=-9999;mouse.y=-9999;});
+  window.addEventListener('resize',()=>{resize();buildPts();});
+  resize();buildPts();loop();
+})();
+
+/* ── SCROLL PROGRESS + NAV ── */
+const bar=document.getElementById('bar'),nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  if(bar)bar.style.width=p+'%';
+  if(nav)nav.classList.toggle('lit',window.scrollY>50);
+});
+
+/* ── HAMBURGER ── */
+const hbg=document.getElementById('hbg'),mob=document.getElementById('mob');
+if(hbg&&mob){
+  hbg.addEventListener('click',()=>{hbg.classList.toggle('on');mob.classList.toggle('on');});
+  mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hbg.classList.remove('on');mob.classList.remove('on');}));
+}
+
+/* ── SCROLL REVEAL ── */
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+/* ── SKILL BARS ── */
+const so=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sk-br div').forEach(d=>{const w=d.dataset.w;d.style.width='0';requestAnimationFrame(()=>setTimeout(()=>{d.style.width=w+'%';},60));});
+      so.unobserve(e.target);
+    }
+  });
+},{threshold:.25});
+const sg=document.getElementById('skgrid');if(sg)so.observe(sg);
+
+/* ── IMPACT BARS ── */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const f=e.target.querySelector('.ic-fill');
+      if(f){const w=f.dataset.w;f.style.width='0';requestAnimationFrame(()=>setTimeout(()=>{f.style.width=w+'%';},80));}
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.ic').forEach(c=>io.observe(c));
+
+/* ── COUNTER ANIMATION ── */
+function count(el,target,dur){
+  let s=Date.now();
+  const run=()=>{
+    const t=Math.min((Date.now()-s)/dur,1);
+    const e=1-Math.pow(1-t,3);
+    el.textContent=Math.floor(e*target);
+    if(t<1)requestAnimationFrame(run);else el.textContent=target;
+  };
+  requestAnimationFrame(run);
+}
+setTimeout(()=>{
+  [['c1',10,1600],['c2',500,2000],['c3',28,1400]].forEach(([id,t,d],i)=>{
+    const el=document.getElementById(id);
+    if(el)setTimeout(()=>count(el,t,d),i*180);
+  });
+},1300);
+
+/* ── CONTACT FORM ── */
+const EJ={svc:'YOUR_SERVICE_ID',tpl:'YOUR_TEMPLATE_ID',key:'YOUR_PUBLIC_KEY'};
+if(typeof emailjs!=='undefined')try{emailjs.init(EJ.key);}catch(e){}
+
+function sendMsg(){
+  const n=document.getElementById('fn')?.value.trim();
+  const e=document.getElementById('fe')?.value.trim();
+  const s=document.getElementById('fs')?.value.trim();
+  const m=document.getElementById('fm')?.value.trim();
+  if(!n||!e||!m){alert('Please fill in name, email and message.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){alert('Please enter a valid email.');return;}
+  const btn=document.querySelector('.cf-btn');
+  const orig=btn.textContent;btn.disabled=true;btn.textContent='Sending…';btn.style.opacity='.6';
+  if(typeof emailjs!=='undefined'){
+    emailjs.send(EJ.svc,EJ.tpl,{from_name:n,from_email:e,subject:s||'Portfolio Enquiry',message:m},EJ.key)
+    .then(()=>{showToast();clearForm();})
+    .catch(()=>{alert('Please email me directly via LinkedIn.');})
+    .finally(()=>{btn.disabled=false;btn.textContent=orig;btn.style.opacity='1';});
+  } else {showToast();clearForm();btn.disabled=false;btn.textContent=orig;btn.style.opacity='1';}
+}
+function showToast(){const t=document.getElementById('toast');if(t){t.classList.add('on');setTimeout(()=>t.classList.remove('on'),4000);}}
+function clearForm(){['fn','fe','fs','fm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+</script>
 </body>
 </html>
