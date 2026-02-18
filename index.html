@@ -1,155 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abhishek Ujjawal — Quantitative Finance & AI</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Abhishek Ujjawal — Quantitative Finance & AI. MSc Candidate, UCD Smurfit. 10+ Years Risk & Capital Markets. Dublin, Ireland."/>
+  <title>Abhishek Ujjawal — Quantitative Finance & AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
-
 <body>
 
-<div id="progress"></div>
-<div id="toast">Message sent successfully ✓</div>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-line"></div>
+      <div class="loader-text"><span>A</span><span>U</span></div>
+    </div>
+  </div>
 
-<nav class="nav">
-  <div class="logo">Abhishek Ujjawal</div>
-  <div class="links">
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-trail"></div>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="progress"></div>
+
+  <!-- TOAST -->
+  <div id="toast">✓ Message sent successfully.</div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">
+      <span class="logo-mark">AU</span>
+      <span class="logo-text">Abhishek Ujjawal</span>
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#impact">Impact</a>
+      <a href="#projects">Work</a>
+      <a href="#education">Education</a>
+      <a href="#contact" class="nav-cta">
+        <span>Let's Talk</span>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <button id="hamburger" aria-label="menu">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div id="mobile-menu">
     <a href="#about">About</a>
     <a href="#impact">Impact</a>
-    <a href="#projects">Projects</a>
+    <a href="#projects">Work</a>
     <a href="#education">Education</a>
-    <a href="#contact" class="cta">Contact</a>
+    <a href="#contact">Let's Talk</a>
   </div>
-</nav>
 
-<section id="hero">
-  <canvas id="network"></canvas>
-  <div class="hero-inner">
-    <div class="eyebrow">Quantitative Finance · Artificial Intelligence · Dublin</div>
-    <h1>
-      Designing <br>
-      <span>Capital Intelligence.</span>
-    </h1>
-    <p class="tagline">
-      Credit Risk. Portfolio Architecture. Predictive Finance.
-      Structured financial systems enhanced by machine learning.
-    </p>
-
-    <div class="metrics">
-      <div class="metric">
-        <div class="num" data-target="10">0</div>
-        <div class="label">Years Experience</div>
+  <!-- ══ HERO ══ -->
+  <section id="hero">
+    <canvas id="market-canvas"></canvas>
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          Quantitative Finance · Artificial Intelligence · Dublin
+        </div>
+        <h1 class="hero-headline">
+          <span class="h-line h-line-1">Designing</span>
+          <span class="h-line h-line-2"><em>Capital</em></span>
+          <span class="h-line h-line-3">Intelligence.</span>
+        </h1>
+        <p class="hero-sub">
+          10+ years shaping credit risk, portfolio architecture &amp; capital markets.<br/>
+          Now fusing <strong>machine learning</strong> with institutional finance.
+        </p>
+        <div class="hero-ctas">
+          <a href="#projects" class="cta-gold">View Work</a>
+          <a href="#contact" class="cta-ghost">Hire Me <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="hero-tags">
+          <span>Credit Risk</span>
+          <span>IFRS 9</span>
+          <span>Basel III</span>
+          <span>Monte Carlo</span>
+          <span>Stamp 1G</span>
+        </div>
       </div>
-      <div class="metric">
-        <div class="num" data-target="500">0</div>
-        <div class="label">€M Portfolio Exposure</div>
+      <div class="hero-right">
+        <div class="hero-stat-stack">
+          <div class="h-stat">
+            <div class="h-stat-num" data-target="10">0</div>
+            <div class="h-stat-suffix">+</div>
+            <div class="h-stat-label">Years in Finance</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num" data-target="500">0</div>
+            <div class="h-stat-suffix">M+</div>
+            <div class="h-stat-label">Portfolio Exposure (€)</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num" data-target="28">0</div>
+            <div class="h-stat-suffix">%</div>
+            <div class="h-stat-label">Revenue Growth Driven</div>
+          </div>
+        </div>
       </div>
-      <div class="metric">
-        <div class="num static">Stamp 1G</div>
-        <div class="label">No Sponsorship Required</div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE ══ -->
+  <div class="marquee-rail">
+    <div class="marquee-track">
+      <span>Credit Risk</span><span class="dot">✦</span>
+      <span>IFRS 9</span><span class="dot">✦</span>
+      <span>Monte Carlo Simulation</span><span class="dot">✦</span>
+      <span>Basel III</span><span class="dot">✦</span>
+      <span>Portfolio Optimisation</span><span class="dot">✦</span>
+      <span>Derivatives Pricing</span><span class="dot">✦</span>
+      <span>Markowitz</span><span class="dot">✦</span>
+      <span>Python · SQL · R</span><span class="dot">✦</span>
+      <span>Machine Learning</span><span class="dot">✦</span>
+      <span>Stress Testing</span><span class="dot">✦</span>
+      <span>ECL Modelling</span><span class="dot">✦</span>
+      <span>Time-Series Forecasting</span><span class="dot">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span>Credit Risk</span><span class="dot">✦</span>
+      <span>IFRS 9</span><span class="dot">✦</span>
+      <span>Monte Carlo Simulation</span><span class="dot">✦</span>
+      <span>Basel III</span><span class="dot">✦</span>
+      <span>Portfolio Optimisation</span><span class="dot">✦</span>
+      <span>Derivatives Pricing</span><span class="dot">✦</span>
+      <span>Markowitz</span><span class="dot">✦</span>
+      <span>Python · SQL · R</span><span class="dot">✦</span>
+      <span>Machine Learning</span><span class="dot">✦</span>
+      <span>Stress Testing</span><span class="dot">✦</span>
+      <span>ECL Modelling</span><span class="dot">✦</span>
+      <span>Time-Series Forecasting</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ══ ABOUT ══ -->
+  <section id="about">
+    <div class="about-wrap reveal">
+      <div class="about-left">
+        <div class="chip">About</div>
+        <h2 class="section-title">Structured<br/><em>thinking.</em><br/>Data-driven<br/><em>execution.</em></h2>
+      </div>
+      <div class="about-right">
+        <p class="about-lead">
+          Finance risk leader with 10+ years of experience building and governing
+          credit analytics, capital optimisation frameworks, and regulatory compliance systems
+          across banking, fintech, and lending sectors.
+        </p>
+        <p class="about-body">
+          Currently completing an <strong>MSc in Quantitative Finance at UCD Smurfit</strong>,
+          specialising in derivatives pricing, Monte Carlo simulation, portfolio
+          optimisation, and AI-based forecasting systems. Holding a Stamp 1G visa —
+          available to work in Ireland without employer sponsorship.
+        </p>
+        <div class="about-pills">
+          <span>Risk Governance</span>
+          <span>Capital Markets</span>
+          <span>ML Systems</span>
+          <span>Basel III</span>
+          <span>IFRS 9</span>
+          <span>No Sponsorship Required</span>
+        </div>
       </div>
     </div>
 
-    <div class="hero-buttons">
-      <a href="#projects" class="btn-primary">View Work</a>
-      <a href="#contact" class="btn-outline">Get In Touch</a>
+    <!-- Experience Timeline -->
+    <div class="timeline-wrap reveal d2">
+      <div class="timeline-header">// Career Timeline</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2024–2026</div>
+          <div class="tl-content">
+            <div class="tl-role">MSc Quantitative Finance</div>
+            <div class="tl-company">University College Dublin — Smurfit Business School</div>
+            <div class="tl-note">Derivatives · Monte Carlo · Portfolio Optimisation · AI Forecasting</div>
+          </div>
+          <div class="tl-tag accent">Current</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2023–2024</div>
+          <div class="tl-content">
+            <div class="tl-role">Senior Credit Risk Manager</div>
+            <div class="tl-company">Financial Institution · India</div>
+            <div class="tl-note">Portfolio governance · Stress testing · Regulatory reporting</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2019–2023</div>
+          <div class="tl-content">
+            <div class="tl-role">Credit Risk Analyst → Lead</div>
+            <div class="tl-company">Lending / Fintech Sector</div>
+            <div class="tl-note">ECL modelling · IFRS 9 · Scorecard development · Capital allocation</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2014–2019</div>
+          <div class="tl-content">
+            <div class="tl-role">Risk &amp; Analytics Associate</div>
+            <div class="tl-company">Banking Sector · India</div>
+            <div class="tl-note">Originations analytics · PD/LGD modelling · Regulatory compliance</div>
+          </div>
+        </div>
+      </div>
+      <div class="avail-strip">
+        <div class="avail-pulse"></div>
+        Available for full-time Quant Finance &amp; Risk roles · Stamp 1G · Dublin, Ireland
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="about" class="section">
-  <div class="section-chip">About</div>
-  <h2>Structured thinking.<br><span>Data-driven execution.</span></h2>
-  <p>
-    Finance risk leader with 10+ years of experience in credit analytics,
-    capital optimisation, and regulatory governance. Currently pursuing MSc
-    in Quantitative Finance, specialising in derivatives pricing, Monte Carlo
-    simulation, portfolio optimisation, and AI-based forecasting systems.
-  </p>
-</section>
-
-<section id="impact" class="section dark">
-  <div class="section-chip light">Impact</div>
-
-  <div class="impact-grid">
-    <div class="impact-card">
-      <div class="impact-num">+28%</div>
-      <div class="impact-text">Revenue growth via risk-aligned allocation</div>
+  <!-- ══ IMPACT ══ -->
+  <section id="impact">
+    <div class="impact-intro reveal">
+      <div class="chip chip-light">Quantified Impact</div>
+      <h2 class="section-title">Numbers that<br/><em>define the work.</em></h2>
     </div>
-    <div class="impact-card">
-      <div class="impact-num">-97%</div>
-      <div class="impact-text">Default reduction vs industry average</div>
+    <div class="impact-grid">
+      <div class="impact-card reveal d1" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">+28<span>%</span></div>
+        <div class="ic-label">Revenue growth via risk-aligned portfolio strategy</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:78%"></div></div>
+      </div>
+      <div class="impact-card reveal d2" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">−97<span>%</span></div>
+        <div class="ic-label">Default reduction vs industry benchmark</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:97%"></div></div>
+      </div>
+      <div class="impact-card reveal d3" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">+30<span>%</span></div>
+        <div class="ic-label">ECL forecast accuracy improvement</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:60%"></div></div>
+      </div>
+      <div class="impact-card reveal d1" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">€500<span>M+</span></div>
+        <div class="ic-label">Portfolio exposure managed and governed</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:85%"></div></div>
+      </div>
+      <div class="impact-card reveal d2" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">10<span>+</span></div>
+        <div class="ic-label">Years across banking, fintech &amp; capital markets</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:70%"></div></div>
+      </div>
+      <div class="impact-card reveal d3" data-tilt>
+        <div class="ic-glow"></div>
+        <div class="ic-num">4<span>x</span></div>
+        <div class="ic-label">Cross-sector risk framework deployments</div>
+        <div class="ic-bar"><div class="ic-bar-fill" style="width:50%"></div></div>
+      </div>
     </div>
-    <div class="impact-card">
-      <div class="impact-num">+30%</div>
-      <div class="impact-text">ECL forecast accuracy improvement</div>
+  </section>
+
+  <!-- ══ SKILLS ══ -->
+  <section id="skills">
+    <div class="skills-intro reveal">
+      <div class="chip">Expertise</div>
+      <h2 class="section-title">The <em>Toolkit.</em></h2>
     </div>
-  </div>
-</section>
-
-<section id="projects" class="section">
-  <div class="section-chip">Projects</div>
-  <h2>Applied Quantitative Systems.</h2>
-
-  <div class="project-grid">
-    <div class="project-card">
-      <h3>Credit Risk Scorecard Model</h3>
-      <p><!-- Add project description --></p>
-      <div class="tech">Python · Logistic Regression · IFRS 9</div>
+    <div class="skills-cols reveal d2">
+      <div class="skill-col">
+        <div class="sc-label">// Quantitative Finance</div>
+        <div class="skill-list">
+          <div class="skill-row"><span class="sk-name">Derivatives Pricing</span><div class="sk-bar"><div style="width:92%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Monte Carlo Simulation</span><div class="sk-bar"><div style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Portfolio Optimisation</span><div class="sk-bar"><div style="width:90%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">ECL / IFRS 9</span><div class="sk-bar"><div style="width:95%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Credit Risk Modelling</span><div class="sk-bar"><div style="width:97%"></div></div></div>
+        </div>
+      </div>
+      <div class="skill-col">
+        <div class="sc-label">// Data Science & AI</div>
+        <div class="skill-list">
+          <div class="skill-row"><span class="sk-name">Python (Pandas, NumPy)</span><div class="sk-bar"><div style="width:88%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Machine Learning (scikit-learn)</span><div class="sk-bar"><div style="width:82%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Time-Series Forecasting</span><div class="sk-bar"><div style="width:85%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">SQL &amp; Data Engineering</span><div class="sk-bar"><div style="width:90%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">R / Statistical Modelling</span><div class="sk-bar"><div style="width:80%"></div></div></div>
+        </div>
+      </div>
+      <div class="skill-col">
+        <div class="sc-label">// Risk & Regulation</div>
+        <div class="skill-list">
+          <div class="skill-row"><span class="sk-name">Basel III / CRR</span><div class="sk-bar"><div style="width:91%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Stress Testing</span><div class="sk-bar"><div style="width:87%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">PD / LGD / EAD</span><div class="sk-bar"><div style="width:94%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Capital Allocation</span><div class="sk-bar"><div style="width:89%"></div></div></div>
+          <div class="skill-row"><span class="sk-name">Regulatory Reporting</span><div class="sk-bar"><div style="width:93%"></div></div></div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="project-card">
-      <h3>IFRS 9 ECL Simulation Engine</h3>
-      <p><!-- Add project description --></p>
-      <div class="tech">Monte Carlo · PD/LGD · Stress Testing</div>
+  <!-- ══ PROJECTS ══ -->
+  <section id="projects">
+    <div class="projects-head reveal">
+      <div>
+        <div class="chip">Projects</div>
+        <h2 class="section-title">Applied<br/><em>Quantitative</em><br/>Systems.</h2>
+      </div>
+      <div class="proj-count-badge">04 Projects</div>
     </div>
+    <div class="proj-grid">
 
-    <div class="project-card">
-      <h3>Portfolio Optimisation Engine</h3>
-      <p><!-- Add project description --></p>
-      <div class="tech">Markowitz · CAPM · Efficient Frontier</div>
+      <!-- P1 Featured -->
+      <div class="proj-card p-featured reveal" data-tilt>
+        <div class="pc-banner">
+          <div class="pc-dots"></div>
+          <div class="pc-num">01 · MSc Project · 2025–26</div>
+          <h3 class="pc-title">IFRS 9 Expected Credit Loss<br/>Simulation Engine</h3>
+          <div class="pc-tags">
+            <span>Monte Carlo</span><span>PD/LGD/EAD</span>
+            <span>Python</span><span>Stress Testing</span><span>Regulatory</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <p>Full ECL simulation framework integrating probability of default, loss given default,
+          and exposure at default models. Multi-scenario stress testing across economic cycles
+          with regulatory-compliant output reporting under IFRS 9 Stage 1, 2 &amp; 3.</p>
+          <div class="pc-metrics">
+            <div class="pcm"><div class="pcm-val">+30%</div><div class="pcm-lbl">Forecast accuracy</div></div>
+            <div class="pcm"><div class="pcm-val">3 stages</div><div class="pcm-lbl">IFRS 9 compliant</div></div>
+            <div class="pcm"><div class="pcm-val">10K+</div><div class="pcm-lbl">Simulations</div></div>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-status">In Progress</span>
+            <span class="pc-label-right">QUANTITATIVE FINANCE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <div class="proj-card reveal d1" data-tilt>
+        <div class="pc-banner pc-b2">
+          <div class="pc-dots"></div>
+          <div class="pc-num">02 · Credit Analytics · 2022–2023</div>
+          <h3 class="pc-title">ML Credit Risk<br/>Scorecard System</h3>
+          <div class="pc-tags">
+            <span>Logistic Regression</span><span>XGBoost</span>
+            <span>Python</span><span>WoE/IV</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <p>Behavioural and application scorecard development reducing defaults by 97% vs industry
+          benchmark. Feature engineering with Weight of Evidence, champion-challenger testing.</p>
+          <div class="pc-footer">
+            <span class="pc-status pc-live">Deployed</span>
+            <span class="pc-label-right">RISK MODELLING</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- P3 -->
+      <div class="proj-card reveal d2" data-tilt>
+        <div class="pc-banner pc-b3">
+          <div class="pc-dots"></div>
+          <div class="pc-num">03 · Portfolio Research · 2024</div>
+          <h3 class="pc-title">Portfolio Optimisation<br/>Engine</h3>
+          <div class="pc-tags">
+            <span>Markowitz</span><span>CAPM</span>
+            <span>Efficient Frontier</span><span>Python</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <p>Mean-variance portfolio construction with Sharpe ratio maximisation, efficient frontier
+          visualisation, and dynamic rebalancing strategy under varying risk appetite scenarios.</p>
+          <div class="pc-footer">
+            <span class="pc-status">Research</span>
+            <span class="pc-label-right">PORTFOLIO THEORY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- P4 -->
+      <div class="proj-card reveal d3" data-tilt>
+        <div class="pc-banner pc-b4">
+          <div class="pc-dots"></div>
+          <div class="pc-num">04 · ML Finance · 2024</div>
+          <h3 class="pc-title">Asset Price<br/>Forecasting Model</h3>
+          <div class="pc-tags">
+            <span>LSTM</span><span>ARIMA</span>
+            <span>Feature Engineering</span><span>PyTorch</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <p>Hybrid LSTM + ARIMA time-series framework forecasting equity price movements with
+          sentiment overlay and regime-detection logic for adaptive model switching.</p>
+          <div class="pc-footer">
+            <span class="pc-status">Research</span>
+            <span class="pc-label-right">AI + FINANCE</span>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <div class="project-card">
-      <h3>Machine Learning Stock Forecasting</h3>
-      <p><!-- Add project description --></p>
-      <div class="tech">Time-Series · Regression · ML</div>
+  <!-- ══ EDUCATION & AWARDS ══ -->
+  <section id="education">
+    <div class="edu-wrap">
+      <div class="edu-left reveal">
+        <div class="chip chip-light">Education</div>
+        <h2 class="section-title">Academic<br/><em>Foundations.</em></h2>
+        <div class="edu-list">
+          <div class="edu-item">
+            <div class="edu-degree">MSc Quantitative Finance</div>
+            <div class="edu-school">University College Dublin — Smurfit Business School</div>
+            <div class="edu-meta"><span class="edu-year">2024 – 2026</span><span class="edu-grade current">In Progress</span></div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">MBA — Finance Specialisation</div>
+            <div class="edu-school">Business School · India</div>
+            <div class="edu-meta"><span class="edu-year">2012 – 2014</span><span class="edu-grade">69.28%</span></div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">B.Tech in Engineering</div>
+            <div class="edu-school">IIT Patna</div>
+            <div class="edu-meta"><span class="edu-year">2008 – 2012</span><span class="edu-grade">71.50%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="edu-right reveal d2">
+        <div class="chip chip-gold">Certifications & Recognition</div>
+        <h2 class="section-title">Awards &amp;<br/><em>Credentials.</em></h2>
+        <div class="award-list">
+          <div class="award-item">
+            <div class="award-ico">◈</div>
+            <div>
+              <div class="award-name">CFA Program Candidate</div>
+              <div class="award-src">CFA Institute</div>
+            </div>
+          </div>
+          <div class="award-item">
+            <div class="award-ico">◈</div>
+            <div>
+              <div class="award-name">Financial Risk Manager (FRM) — Part I</div>
+              <div class="award-src">GARP</div>
+            </div>
+          </div>
+          <div class="award-item">
+            <div class="award-ico">◈</div>
+            <div>
+              <div class="award-name">Advanced Excel & Financial Modelling</div>
+              <div class="award-src">Wall Street Prep</div>
+            </div>
+          </div>
+          <div class="award-item">
+            <div class="award-ico">◈</div>
+            <div>
+              <div class="award-name">Risk Management Excellence</div>
+              <div class="award-src">Industry Recognition</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="education" class="section dark">
-  <div class="section-chip light">Education</div>
-
-  <div class="edu-list">
-    <div>MSc Quantitative Finance — UCD Smurfit (Expected 2026)</div>
-    <div>MBA — 69.28%</div>
-    <div>B.Tech IIT Patna — 71.50%</div>
-    <div>Class 12 — 92%</div>
-    <div>Class 10 — 86.6%</div>
-  </div>
-</section>
-
-<section id="contact" class="section">
-  <div class="section-chip">Contact</div>
-  <h2>Let’s build something strategic.</h2>
-
-  <form id="contact-form">
-    <div class="row">
-      <input type="text" id="name" placeholder="Your Name" required>
-      <input type="email" id="email" placeholder="Your Email" required>
+  <!-- ══ CONTACT ══ -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="contact-left reveal">
+        <div class="chip">Contact</div>
+        <h2 class="contact-title">Let's build<br/><em>something</em><br/>exceptional.</h2>
+        <p class="contact-sub">
+          Open to full-time Quantitative Finance, Risk, and Data Science roles in Dublin and beyond.
+          Available immediately. Stamp 1G — no sponsorship required.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:abhishek.ujjawal@ucdconnect.ie" class="cl-item">
+            <span class="cl-icon">✉</span>
+            <span>abhishek.ujjawal@ucdconnect.ie</span>
+          </a>
+          <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank" class="cl-item">
+            <span class="cl-icon">in</span>
+            <span>linkedin.com/in/abhishek-ujjawal</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-right reveal d2">
+        <div class="cf-box">
+          <div class="cf-title">Send a message</div>
+          <div class="cf-row">
+            <div class="cf-group"><label>Name</label><input type="text" id="fn" placeholder="Jane Smith"/></div>
+            <div class="cf-group"><label>Email</label><input type="email" id="fe" placeholder="jane@firm.com"/></div>
+          </div>
+          <div class="cf-group"><label>Subject</label><input type="text" id="fs" placeholder="Quant Analyst Role at..."/></div>
+          <div class="cf-group"><label>Message</label><textarea id="fm" placeholder="Tell me about the opportunity…"></textarea></div>
+          <button class="cf-send" onclick="sendMsg()">Send Message <span>→</span></button>
+        </div>
+      </div>
     </div>
-    <input type="text" id="subject" placeholder="Subject">
-    <textarea id="message" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message →</button>
-  </form>
-</section>
+  </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="script.js"></script>
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-logo">Abhishek Ujjawal</div>
+    <div class="footer-mid">
+      <a href="mailto:abhishek.ujjawal@ucdconnect.ie">Email</a>
+      <a href="https://linkedin.com/in/abhishek-ujjawal" target="_blank">LinkedIn</a>
+    </div>
+    <div class="footer-right">Stamp 1G · Dublin © 2025</div>
+  </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
