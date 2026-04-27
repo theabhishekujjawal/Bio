@@ -1,0 +1,14 @@
+# Jekyll configuration for GitHub Pages user site
+baseurl: ""
+url: "https://theabhishekujjawal.github.io"
+
+# Build settings
+markdown: kramdown
+theme: null
+
+# Exclude these from being processed by Jekyll
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
